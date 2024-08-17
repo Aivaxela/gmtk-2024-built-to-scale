@@ -12,7 +12,7 @@ public partial class Camera : Camera2D
 
 	public override void _Process(double delta)
 	{
-		Vector2 newCameraPos = new(ship.GlobalPosition.X + 350, ship.GlobalPosition.Y);
+		Vector2 newCameraPos = new(ship.GlobalPosition.X, ship.GlobalPosition.Y);
 		GlobalPosition = newCameraPos;
 	}
 }

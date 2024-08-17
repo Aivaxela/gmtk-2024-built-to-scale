@@ -9,7 +9,7 @@ public partial class Ship : CharacterBody2D
     [Export] Label dirLabel;
     [Export] Label planetPowerLabel;
 
-    public float planetPower = 0;
+    public float planetPower = 1;
 
     Vector2 velocity = new Vector2(150, 0);
     Vector2 direction;
@@ -25,10 +25,12 @@ public partial class Ship : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
+
+
         if (planetNear != null)
         {
             Vector2 dirToPlanet = planetNear.GlobalPosition - GlobalPosition;
-            direction = dirToPlanet.Normalized() * planetPower;
+            direction = dirToPlanet.Normalized() * (planetPower * 100);
         }
         else
         {
@@ -36,6 +38,9 @@ public partial class Ship : CharacterBody2D
         }
 
         velocity = velocity.Lerp(direction, 0.001f);
+        if ((Velocity.X + Velocity.Y) < 100) velocity *= 1.001f;
+        else if ((Velocity.X + Velocity.Y) > 100) velocity *= .999f;
+
         Velocity = velocity;
         MoveAndSlide();
         Rotation = velocity.Angle();

@@ -1,44 +1,10 @@
-[gd_scene load_steps=17 format=3 uid="uid://cmb3v75n0j57t"]
+[gd_scene load_steps=8 format=3 uid="uid://cmb3v75n0j57t"]
 
 [ext_resource type="Script" path="res://scripts/Main.cs" id="1_1lnp4"]
-[ext_resource type="Texture2D" uid="uid://c6iw5ta26xsqo" path="res://sprites/planet-1-outline.png" id="1_2f705"]
 [ext_resource type="Script" path="res://scripts/Camera.cs" id="1_d2gsj"]
 [ext_resource type="Texture2D" uid="uid://cvro1hp5sskf8" path="res://sprites/ship.png" id="1_ln7cr"]
-[ext_resource type="Texture2D" uid="uid://csylgx2asodn0" path="res://sprites/planet-1-inner.png" id="2_lb5ge"]
-[ext_resource type="Texture2D" uid="uid://dnmnjms50g7cf" path="res://sprites/planet-1-specks.png" id="3_6h1ab"]
-[ext_resource type="Script" path="res://Planet.cs" id="4_6eli4"]
-[ext_resource type="Texture2D" uid="uid://bwkefdhygjh6t" path="res://sprites/planet-1-shade.png" id="4_w8kcf"]
+[ext_resource type="PackedScene" uid="uid://dbxyqlcc7cohr" path="res://scene/planet.tscn" id="5_fjy7s"]
 [ext_resource type="Script" path="res://scripts/Ship.cs" id="8_3hooo"]
-
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_t6nfn"]
-particles_animation = true
-particles_anim_h_frames = 4
-particles_anim_v_frames = 1
-particles_anim_loop = false
-
-[sub_resource type="Gradient" id="Gradient_fjwxt"]
-offsets = PackedFloat32Array(0, 0.551298, 0.996292)
-colors = PackedColorArray(1, 1, 1, 0.784314, 1, 1, 1, 1, 1, 1, 1, 0.0117647)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_pdkpk"]
-gradient = SubResource("Gradient_fjwxt")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_q1elm"]
-particle_flag_disable_z = true
-emission_shape = 3
-emission_box_extents = Vector3(1, 200, 1)
-spread = 25.045
-initial_velocity_min = 3.0
-initial_velocity_max = 3.0
-orbit_velocity_min = 0.0150001
-orbit_velocity_max = 0.0200001
-gravity = Vector3(1, 0, 0)
-scale_max = 2.0
-color_ramp = SubResource("GradientTexture1D_pdkpk")
-anim_offset_max = 1.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_q0ygi"]
-radius = 267.067
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_11tr6"]
 size = Vector2(23.5, 17)
@@ -79,103 +45,31 @@ offset_left = -628.0
 offset_top = -288.0
 offset_right = -536.0
 offset_bottom = -265.0
-text = "dir"
+text = "planet power"
 
-[node name="planet-1" type="Sprite2D" parent="." node_paths=PackedStringArray("gravityArea")]
-position = Vector2(179, -24)
-texture = ExtResource("1_2f705")
-script = ExtResource("4_6eli4")
-gravityArea = NodePath("gravity-area")
-pullStrength = 20.0
+[node name="planet-1" parent="." instance=ExtResource("5_fjy7s")]
+position = Vector2(198, -56)
 
-[node name="inner" type="Sprite2D" parent="planet-1"]
-show_behind_parent = true
-clip_children = 2
-texture = ExtResource("2_lb5ge")
+[node name="planet-2" parent="." instance=ExtResource("5_fjy7s")]
+position = Vector2(807, 268)
 
-[node name="GPUParticles2D" type="GPUParticles2D" parent="planet-1/inner"]
-material = SubResource("CanvasItemMaterial_t6nfn")
-position = Vector2(-113, 20)
-amount = 1000
-process_material = SubResource("ParticleProcessMaterial_q1elm")
-texture = ExtResource("3_6h1ab")
-lifetime = 20.0
-preprocess = 30.0
+[node name="planet-3" parent="." instance=ExtResource("5_fjy7s")]
+position = Vector2(1363, -106)
 
-[node name="shade" type="Sprite2D" parent="planet-1/inner"]
-texture = ExtResource("4_w8kcf")
+[node name="planet-4" parent="." instance=ExtResource("5_fjy7s")]
+position = Vector2(1874, 308)
 
-[node name="gravity-area" type="Area2D" parent="planet-1"]
-collision_mask = 0
+[node name="planet-5" parent="." instance=ExtResource("5_fjy7s")]
+position = Vector2(2426, 648)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="planet-1/gravity-area"]
-shape = SubResource("CircleShape2D_q0ygi")
-debug_color = Color(0, 0.6, 0.701961, 0.168627)
+[node name="planet-6" parent="." instance=ExtResource("5_fjy7s")]
+position = Vector2(3013, 308)
 
-[node name="planet-2" type="Sprite2D" parent="." node_paths=PackedStringArray("gravityArea")]
-position = Vector2(809, -208)
-texture = ExtResource("1_2f705")
-script = ExtResource("4_6eli4")
-gravityArea = NodePath("gravity-area")
-pullStrength = 20.0
-
-[node name="inner" type="Sprite2D" parent="planet-2"]
-show_behind_parent = true
-clip_children = 2
-texture = ExtResource("2_lb5ge")
-
-[node name="GPUParticles2D" type="GPUParticles2D" parent="planet-2/inner"]
-material = SubResource("CanvasItemMaterial_t6nfn")
-position = Vector2(-113, 20)
-amount = 1000
-process_material = SubResource("ParticleProcessMaterial_q1elm")
-texture = ExtResource("3_6h1ab")
-lifetime = 20.0
-preprocess = 30.0
-
-[node name="shade" type="Sprite2D" parent="planet-2/inner"]
-texture = ExtResource("4_w8kcf")
-
-[node name="gravity-area" type="Area2D" parent="planet-2"]
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="planet-2/gravity-area"]
-shape = SubResource("CircleShape2D_q0ygi")
-debug_color = Color(0, 0.6, 0.701961, 0.168627)
-
-[node name="planet-3" type="Sprite2D" parent="." node_paths=PackedStringArray("gravityArea")]
-position = Vector2(1461, -8)
-texture = ExtResource("1_2f705")
-script = ExtResource("4_6eli4")
-gravityArea = NodePath("gravity-area")
-pullStrength = 20.0
-
-[node name="inner" type="Sprite2D" parent="planet-3"]
-show_behind_parent = true
-clip_children = 2
-texture = ExtResource("2_lb5ge")
-
-[node name="GPUParticles2D" type="GPUParticles2D" parent="planet-3/inner"]
-material = SubResource("CanvasItemMaterial_t6nfn")
-position = Vector2(-113, 20)
-amount = 1000
-process_material = SubResource("ParticleProcessMaterial_q1elm")
-texture = ExtResource("3_6h1ab")
-lifetime = 20.0
-preprocess = 30.0
-
-[node name="shade" type="Sprite2D" parent="planet-3/inner"]
-texture = ExtResource("4_w8kcf")
-
-[node name="gravity-area" type="Area2D" parent="planet-3"]
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="planet-3/gravity-area"]
-shape = SubResource("CircleShape2D_q0ygi")
-debug_color = Color(0, 0.6, 0.701961, 0.168627)
+[node name="planet-7" parent="." instance=ExtResource("5_fjy7s")]
+position = Vector2(3610, 630)
 
 [node name="ship" type="CharacterBody2D" parent="." node_paths=PackedStringArray("gravityCheckArea", "speedLabel", "totalVelLabel", "dirLabel", "planetPowerLabel")]
-position = Vector2(-235, -221)
+position = Vector2(-243, 89)
 collision_layer = 0
 collision_mask = 0
 script = ExtResource("8_3hooo")

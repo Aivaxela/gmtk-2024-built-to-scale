@@ -1,0 +1,81 @@
+[gd_scene load_steps=11 format=3 uid="uid://dbxyqlcc7cohr"]
+
+[ext_resource type="Texture2D" uid="uid://c6iw5ta26xsqo" path="res://sprites/planet-1-outline.png" id="1_j2hhp"]
+[ext_resource type="Script" path="res://scripts/Planet.cs" id="1_q4200"]
+[ext_resource type="Texture2D" uid="uid://csylgx2asodn0" path="res://sprites/planet-1-inner.png" id="3_3l5k6"]
+[ext_resource type="Texture2D" uid="uid://dnmnjms50g7cf" path="res://sprites/planet-1-specks.png" id="4_f78pe"]
+[ext_resource type="Texture2D" uid="uid://bwkefdhygjh6t" path="res://sprites/planet-1-shade.png" id="5_h0ka5"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_q0ygi"]
+radius = 267.067
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_t6nfn"]
+particles_animation = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id="Gradient_fjwxt"]
+offsets = PackedFloat32Array(0, 0.551298, 0.996292)
+colors = PackedColorArray(1, 1, 1, 0.784314, 1, 1, 1, 1, 1, 1, 1, 0.0117647)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_pdkpk"]
+gradient = SubResource("Gradient_fjwxt")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_q1elm"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 200, 1)
+spread = 25.045
+initial_velocity_min = 3.0
+initial_velocity_max = 3.0
+orbit_velocity_min = 0.0150001
+orbit_velocity_max = 0.0200001
+gravity = Vector3(1, 0, 0)
+scale_max = 2.0
+color_ramp = SubResource("GradientTexture1D_pdkpk")
+anim_offset_max = 1.0
+
+[node name="planet" type="Node2D" node_paths=PackedStringArray("gravityArea", "planetPowerLabel", "sprite", "gravityAreaShape")]
+position = Vector2(179, -24)
+script = ExtResource("1_q4200")
+gravityArea = NodePath("gravity-area")
+planetPowerLabel = NodePath("planet-power")
+sprite = NodePath("Sprite2D")
+gravityAreaShape = NodePath("gravity-area/CollisionShape2D")
+pullStrength = 20.0
+
+[node name="gravity-area" type="Area2D" parent="."]
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="gravity-area"]
+shape = SubResource("CircleShape2D_q0ygi")
+debug_color = Color(0, 0.6, 0.701961, 0.168627)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-1, 0)
+texture = ExtResource("1_j2hhp")
+
+[node name="inner" type="Sprite2D" parent="Sprite2D"]
+show_behind_parent = true
+clip_children = 2
+texture = ExtResource("3_3l5k6")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Sprite2D/inner"]
+material = SubResource("CanvasItemMaterial_t6nfn")
+position = Vector2(-113, 20)
+amount = 1000
+process_material = SubResource("ParticleProcessMaterial_q1elm")
+texture = ExtResource("4_f78pe")
+lifetime = 20.0
+preprocess = 30.0
+
+[node name="shade" type="Sprite2D" parent="Sprite2D/inner"]
+texture = ExtResource("5_h0ka5")
+
+[node name="planet-power" type="Label" parent="."]
+offset_left = -12.0
+offset_top = 41.0
+offset_right = 91.0
+offset_bottom = 64.0
+text = "999"
