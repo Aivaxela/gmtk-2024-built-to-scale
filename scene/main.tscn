@@ -1,6 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://cmb3v75n0j57t"]
+[gd_scene load_steps=12 format=3 uid="uid://cmb3v75n0j57t"]
 
+[ext_resource type="Script" path="res://scripts/Main.cs" id="1_1lnp4"]
 [ext_resource type="Texture2D" uid="uid://c6iw5ta26xsqo" path="res://sprites/planet-1-outline.png" id="1_2f705"]
+[ext_resource type="Script" path="res://scripts/Camera.cs" id="1_d2gsj"]
 [ext_resource type="Texture2D" uid="uid://cvro1hp5sskf8" path="res://sprites/ship.png" id="1_ln7cr"]
 [ext_resource type="Texture2D" uid="uid://csylgx2asodn0" path="res://sprites/planet-1-inner.png" id="2_lb5ge"]
 [ext_resource type="Texture2D" uid="uid://dnmnjms50g7cf" path="res://sprites/planet-1-specks.png" id="3_6h1ab"]
@@ -34,21 +36,24 @@ color_ramp = SubResource("GradientTexture1D_pdkpk")
 anim_offset_max = 1.0
 
 [node name="main" type="Node"]
+script = ExtResource("1_1lnp4")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("1_d2gsj")
 
 [node name="planet-1" type="Sprite2D" parent="."]
 position = Vector2(179, -24)
 texture = ExtResource("1_2f705")
 
 [node name="inner" type="Sprite2D" parent="planet-1"]
+show_behind_parent = true
 clip_children = 2
 texture = ExtResource("2_lb5ge")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="planet-1/inner"]
 material = SubResource("CanvasItemMaterial_t6nfn")
 position = Vector2(-113, 20)
-amount = 2000
+amount = 1000
 process_material = SubResource("ParticleProcessMaterial_q1elm")
 texture = ExtResource("3_6h1ab")
 lifetime = 20.0
@@ -57,6 +62,6 @@ preprocess = 30.0
 [node name="shade" type="Sprite2D" parent="planet-1/inner"]
 texture = ExtResource("4_w8kcf")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="ship" type="Sprite2D" parent="."]
 position = Vector2(-183, -54)
 texture = ExtResource("1_ln7cr")
