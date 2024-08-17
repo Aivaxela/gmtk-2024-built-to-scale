@@ -1,0 +1,62 @@
+[gd_scene load_steps=10 format=3 uid="uid://cmb3v75n0j57t"]
+
+[ext_resource type="Texture2D" uid="uid://c6iw5ta26xsqo" path="res://sprites/planet-1-outline.png" id="1_2f705"]
+[ext_resource type="Texture2D" uid="uid://cvro1hp5sskf8" path="res://sprites/ship.png" id="1_ln7cr"]
+[ext_resource type="Texture2D" uid="uid://csylgx2asodn0" path="res://sprites/planet-1-inner.png" id="2_lb5ge"]
+[ext_resource type="Texture2D" uid="uid://dnmnjms50g7cf" path="res://sprites/planet-1-specks.png" id="3_6h1ab"]
+[ext_resource type="Texture2D" uid="uid://bwkefdhygjh6t" path="res://sprites/planet-1-shade.png" id="4_w8kcf"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_t6nfn"]
+particles_animation = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id="Gradient_fjwxt"]
+offsets = PackedFloat32Array(0, 0.551298, 0.996292)
+colors = PackedColorArray(1, 1, 1, 0.784314, 1, 1, 1, 1, 1, 1, 1, 0.0117647)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_pdkpk"]
+gradient = SubResource("Gradient_fjwxt")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_q1elm"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 200, 1)
+spread = 25.045
+initial_velocity_min = 3.0
+initial_velocity_max = 3.0
+orbit_velocity_min = 0.0150001
+orbit_velocity_max = 0.0200001
+gravity = Vector3(1, 0, 0)
+scale_max = 2.0
+color_ramp = SubResource("GradientTexture1D_pdkpk")
+anim_offset_max = 1.0
+
+[node name="main" type="Node"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="planet-1" type="Sprite2D" parent="."]
+position = Vector2(179, -24)
+texture = ExtResource("1_2f705")
+
+[node name="inner" type="Sprite2D" parent="planet-1"]
+clip_children = 2
+texture = ExtResource("2_lb5ge")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="planet-1/inner"]
+material = SubResource("CanvasItemMaterial_t6nfn")
+position = Vector2(-113, 20)
+amount = 2000
+process_material = SubResource("ParticleProcessMaterial_q1elm")
+texture = ExtResource("3_6h1ab")
+lifetime = 20.0
+preprocess = 30.0
+
+[node name="shade" type="Sprite2D" parent="planet-1/inner"]
+texture = ExtResource("4_w8kcf")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-183, -54)
+texture = ExtResource("1_ln7cr")
