@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://cmb3v75n0j57t"]
+[gd_scene load_steps=9 format=3 uid="uid://cmb3v75n0j57t"]
 
 [ext_resource type="Script" path="res://scripts/Main.cs" id="1_1lnp4"]
 [ext_resource type="Script" path="res://scripts/Camera.cs" id="1_d2gsj"]
 [ext_resource type="Texture2D" uid="uid://cvro1hp5sskf8" path="res://sprites/ship.png" id="1_ln7cr"]
 [ext_resource type="PackedScene" uid="uid://dbxyqlcc7cohr" path="res://scene/planet.tscn" id="5_fjy7s"]
+[ext_resource type="Texture2D" uid="uid://bj5kib510ym01" path="res://sprites/pointer.png" id="5_yf7f2"]
 [ext_resource type="Script" path="res://scripts/Ship.cs" id="8_3hooo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_11tr6"]
@@ -51,24 +52,12 @@ text = "planet power"
 position = Vector2(198, -56)
 
 [node name="planet-2" parent="." instance=ExtResource("5_fjy7s")]
-position = Vector2(807, 268)
+position = Vector2(1439, 450)
 
 [node name="planet-3" parent="." instance=ExtResource("5_fjy7s")]
-position = Vector2(1363, -106)
+position = Vector2(2320, -433)
 
-[node name="planet-4" parent="." instance=ExtResource("5_fjy7s")]
-position = Vector2(1874, 308)
-
-[node name="planet-5" parent="." instance=ExtResource("5_fjy7s")]
-position = Vector2(2426, 648)
-
-[node name="planet-6" parent="." instance=ExtResource("5_fjy7s")]
-position = Vector2(3013, 308)
-
-[node name="planet-7" parent="." instance=ExtResource("5_fjy7s")]
-position = Vector2(3610, 630)
-
-[node name="ship" type="CharacterBody2D" parent="." node_paths=PackedStringArray("gravityCheckArea", "speedLabel", "totalVelLabel", "dirLabel", "planetPowerLabel")]
+[node name="ship" type="CharacterBody2D" parent="." node_paths=PackedStringArray("gravityCheckArea", "speedLabel", "totalVelLabel", "dirLabel", "planetPowerLabel", "dirPointer", "planetPointer")]
 position = Vector2(-243, 89)
 collision_layer = 0
 collision_mask = 0
@@ -78,6 +67,21 @@ speedLabel = NodePath("../camera/speed-label")
 totalVelLabel = NodePath("../camera/vel-label")
 dirLabel = NodePath("../camera/dir-label")
 planetPowerLabel = NodePath("../camera/planet-power-label")
+dirPointer = NodePath("pointer")
+planetPointer = NodePath("pPointer")
+
+[node name="pointer" type="Sprite2D" parent="ship"]
+position = Vector2(16, 9)
+texture = ExtResource("5_yf7f2")
+centered = false
+
+[node name="pPointer" type="Sprite2D" parent="ship"]
+modulate = Color(1, 0, 0, 1)
+position = Vector2(16, 9)
+rotation = 1.5708
+scale = Vector2(0.5, 1)
+texture = ExtResource("5_yf7f2")
+centered = false
 
 [node name="Sprite2D" type="Sprite2D" parent="ship"]
 texture = ExtResource("1_ln7cr")
