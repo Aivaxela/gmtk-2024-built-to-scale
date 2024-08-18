@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cmb3v75n0j57t"]
+[gd_scene load_steps=12 format=3 uid="uid://cmb3v75n0j57t"]
 
 [ext_resource type="Script" path="res://scripts/Main.cs" id="1_1lnp4"]
 [ext_resource type="Script" path="res://scripts/Camera.cs" id="1_d2gsj"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://cg17iwe8q8bp4" path="res://sprites/parallax-4.png" id="8_4ygsq"]
 [ext_resource type="Texture2D" uid="uid://cm47di47i1hwj" path="res://sprites/parallax-5.png" id="8_pbo15"]
 [ext_resource type="Texture2D" uid="uid://drhoo4sm70ka" path="res://sprites/parallax-6.png" id="10_4gmp4"]
+[ext_resource type="PackedScene" uid="uid://biakw32ljn108" path="res://scene/planet-2.tscn" id="11_ox6sk"]
 
 [node name="main" type="Node"]
 script = ExtResource("1_1lnp4")
@@ -71,8 +72,8 @@ ship = NodePath("../ship")
 [node name="planet1" parent="." instance=ExtResource("5_fjy7s")]
 position = Vector2(198, -56)
 
-[node name="planet2" parent="." instance=ExtResource("5_fjy7s")]
-position = Vector2(750, -517)
-
 [node name="ship" parent="." instance=ExtResource("4_2cdsw")]
 position = Vector2(-579, 69)
+
+[node name="planet-1" parent="." instance=ExtResource("11_ox6sk")]
+position = Vector2(873, -391)

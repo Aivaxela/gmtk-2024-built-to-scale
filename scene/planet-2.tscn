@@ -1,12 +1,12 @@
-[gd_scene load_steps=14 format=3 uid="uid://dbxyqlcc7cohr"]
+[gd_scene load_steps=14 format=3 uid="uid://biakw32ljn108"]
 
-[ext_resource type="Texture2D" uid="uid://c6iw5ta26xsqo" path="res://sprites/planet-1-outline.png" id="1_j2hhp"]
-[ext_resource type="Script" path="res://scripts/Planet.cs" id="1_q4200"]
-[ext_resource type="Texture2D" uid="uid://csylgx2asodn0" path="res://sprites/planet-1-inner.png" id="3_3l5k6"]
-[ext_resource type="Texture2D" uid="uid://dnmnjms50g7cf" path="res://sprites/planet-1-specks.png" id="4_f78pe"]
-[ext_resource type="Texture2D" uid="uid://bwkefdhygjh6t" path="res://sprites/planet-1-shade.png" id="5_h0ka5"]
-[ext_resource type="Texture2D" uid="uid://tuoetl6d2q3r" path="res://sprites/planet-gravity-ring.png" id="6_teery"]
-[ext_resource type="Texture2D" uid="uid://ds73e6qplvc1x" path="res://sprites/planet-select.png" id="7_20fca"]
+[ext_resource type="Script" path="res://scripts/Planet.cs" id="1_lumku"]
+[ext_resource type="Texture2D" uid="uid://tuoetl6d2q3r" path="res://sprites/planet-gravity-ring.png" id="2_m53xn"]
+[ext_resource type="Texture2D" uid="uid://c6iw5ta26xsqo" path="res://sprites/planet-1-outline.png" id="3_cki0m"]
+[ext_resource type="Texture2D" uid="uid://btfyxwvty2hre" path="res://sprites/planet-2-inner.png" id="4_ns3hk"]
+[ext_resource type="Texture2D" uid="uid://bwkefdhygjh6t" path="res://sprites/planet-1-shade.png" id="5_cob6l"]
+[ext_resource type="Texture2D" uid="uid://b2m3wdxh65qta" path="res://sprites/planet-2-clouds.png" id="6_bxwb7"]
+[ext_resource type="Texture2D" uid="uid://ds73e6qplvc1x" path="res://sprites/planet-select.png" id="7_8vuh6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_q0ygi"]
 radius = 500.0
@@ -17,12 +17,12 @@ particles_anim_h_frames = 4
 particles_anim_v_frames = 1
 particles_anim_loop = false
 
-[sub_resource type="Gradient" id="Gradient_fjwxt"]
-offsets = PackedFloat32Array(0, 0.551298, 0.996292)
-colors = PackedColorArray(1, 1, 1, 0.784314, 1, 1, 1, 1, 1, 1, 1, 0.0117647)
+[sub_resource type="Gradient" id="Gradient_5rwk8"]
+offsets = PackedFloat32Array(0, 0.855072, 1)
+colors = PackedColorArray(1, 1, 1, 0.352941, 1, 1, 1, 0.352941, 1, 1, 1, 0)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_pdkpk"]
-gradient = SubResource("Gradient_fjwxt")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_yjx88"]
+gradient = SubResource("Gradient_5rwk8")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_q1elm"]
 particle_flag_disable_z = true
@@ -34,8 +34,8 @@ initial_velocity_max = 3.0
 orbit_velocity_min = 0.0150001
 orbit_velocity_max = 0.0200001
 gravity = Vector3(1, 0, 0)
-scale_max = 2.0
-color_ramp = SubResource("GradientTexture1D_pdkpk")
+color = Color(1, 1, 1, 0.756863)
+color_ramp = SubResource("GradientTexture1D_yjx88")
 anim_offset_max = 1.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vn3l6"]
@@ -43,7 +43,7 @@ radius = 40.4475
 
 [node name="planet-1" type="Node2D" node_paths=PackedStringArray("gravityArea", "shipCheckArea", "sprite", "selectionSprite")]
 position = Vector2(179, -24)
-script = ExtResource("1_q4200")
+script = ExtResource("1_lumku")
 gravityArea = NodePath("gravity-area")
 shipCheckArea = NodePath("Sprite2D/ship-check")
 sprite = NodePath("Sprite2D")
@@ -57,36 +57,36 @@ shape = SubResource("CircleShape2D_q0ygi")
 debug_color = Color(0, 0.6, 0.701961, 0.168627)
 
 [node name="grav-ring" type="Sprite2D" parent="gravity-area/CollisionShape2D"]
-texture = ExtResource("6_teery")
+texture = ExtResource("2_m53xn")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-1, 0)
-texture = ExtResource("1_j2hhp")
+texture = ExtResource("3_cki0m")
 
 [node name="inner" type="Sprite2D" parent="Sprite2D"]
 show_behind_parent = true
 clip_children = 2
 position = Vector2(1, 0)
-texture = ExtResource("3_3l5k6")
+texture = ExtResource("4_ns3hk")
 
 [node name="shade" type="Sprite2D" parent="Sprite2D/inner"]
-texture = ExtResource("5_h0ka5")
+texture = ExtResource("5_cob6l")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="Sprite2D/inner"]
 material = SubResource("CanvasItemMaterial_t6nfn")
 position = Vector2(-113, 20)
-scale = Vector2(1, 1)
-amount = 1500
+amount = 150
 process_material = SubResource("ParticleProcessMaterial_q1elm")
-texture = ExtResource("4_f78pe")
+texture = ExtResource("6_bxwb7")
 lifetime = 20.0
 preprocess = 30.0
 
 [node name="selectr" type="Sprite2D" parent="Sprite2D"]
 visible = false
-texture = ExtResource("7_20fca")
+texture = ExtResource("7_8vuh6")
 
 [node name="ship-check" type="Area2D" parent="Sprite2D"]
+visible = false
 position = Vector2(1, 0)
 collision_layer = 0
 collision_mask = 2
