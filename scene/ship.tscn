@@ -10,16 +10,16 @@ size = Vector2(8.75, 5.5)
 [sub_resource type="CircleShape2D" id="CircleShape2D_x6045"]
 radius = 26.0192
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_04g7e"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y0bx4"]
 size = Vector2(29, 14)
 
-[node name="ship" type="CharacterBody2D" node_paths=PackedStringArray("gravityCheckArea", "dirPointer", "planetPointer")]
+[node name="ship" type="CharacterBody2D" node_paths=PackedStringArray("gravityCheckArea", "dirPointer", "bodyPointer")]
 collision_layer = 2
 collision_mask = 2
 script = ExtResource("1_nse1n")
 gravityCheckArea = NodePath("gravity-area")
 dirPointer = NodePath("pointer")
-planetPointer = NodePath("pPointer")
+bodyPointer = NodePath("pPointer")
 
 [node name="pointer" type="Sprite2D" parent="."]
 position = Vector2(35, -17)
@@ -58,5 +58,5 @@ collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="collision-check-area"]
 position = Vector2(17.5, 10)
-shape = SubResource("RectangleShape2D_04g7e")
+shape = SubResource("RectangleShape2D_y0bx4")
 debug_color = Color(0.945098, 0.172549, 0.392157, 0.188235)

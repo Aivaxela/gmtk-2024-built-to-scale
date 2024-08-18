@@ -4,14 +4,14 @@ public partial class Ship : CharacterBody2D
 {
     [Export] Area2D gravityCheckArea;
     [Export] Sprite2D dirPointer;
-    [Export] Sprite2D planetPointer;
+    [Export] Sprite2D bodyPointer;
 
     float speed = 200;
-
     Vector2 velocity = new Vector2(100, 0);
     Vector2 direction;
 
     Planet planetNear = null;
+    Comet cometNear = null;
 
 
     public override void _Ready()
@@ -37,6 +37,11 @@ public partial class Ship : CharacterBody2D
             Vector2 dirToPlanet = planetNear.GlobalPosition - GlobalPosition;
             direction = dirToPlanet.Normalized();
         }
+        else if (cometNear != null)
+        {
+            Vector2 dirToComet = cometNear.GlobalPosition - GlobalPosition;
+            direction = dirToComet.Normalized();
+        }
         else
         {
             direction = velocity;
@@ -56,14 +61,14 @@ public partial class Ship : CharacterBody2D
 
     private void OnGravityAreaEntered(Area2D area)
     {
-        if (area.GetParent() is not Planet) return;
-        planetNear = (Planet)area.GetParent();
+        if (area.GetParent() is Planet) planetNear = (Planet)area.GetParent();
+        if (area.GetParent() is Comet) cometNear = (Comet)area.GetParent();
     }
 
     private void OnGravityAreaExited(Area2D area)
     {
-        if (area.GetParent() is not Planet) return;
         planetNear = null;
+        cometNear = null;
     }
 
     public void Reset()
@@ -77,12 +82,17 @@ public partial class Ship : CharacterBody2D
     {
         if (planetNear != null)
         {
-            planetPointer.Visible = true;
-            planetPointer.Rotation = GetAngleTo(planetNear.GlobalPosition);
+            bodyPointer.Visible = true;
+            bodyPointer.Rotation = GetAngleTo(planetNear.GlobalPosition);
+        }
+        else if (cometNear != null)
+        {
+            bodyPointer.Visible = true;
+            bodyPointer.Rotation = GetAngleTo(cometNear.GlobalPosition);
         }
         else
         {
-            planetPointer.Visible = false;
+            bodyPointer.Visible = false;
         }
     }
 }

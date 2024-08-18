@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c2itsjav3dgh3"
-path="res://.godot/imported/planet-jup.png-fab92278eb982c27fcac0b229ad8ff17.ctex"
+uid="uid://tqgebyfd26r6"
+path="res://.godot/imported/comet.png-283afd07a8682e38e634aaf9c88abf9b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/planet-jup.png"
-dest_files=["res://.godot/imported/planet-jup.png-fab92278eb982c27fcac0b229ad8ff17.ctex"]
+source_file="res://sprites/comet.png"
+dest_files=["res://.godot/imported/comet.png-283afd07a8682e38e634aaf9c88abf9b.ctex"]
 
 [params]
 
