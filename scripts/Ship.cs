@@ -3,17 +3,12 @@ using Godot;
 public partial class Ship : CharacterBody2D
 {
     [Export] Area2D gravityCheckArea;
-    [Export] Label speedLabel;
-    [Export] Label totalVelLabel;
-    [Export] Label dirLabel;
-    [Export] Label planetPowerLabel;
     [Export] Sprite2D dirPointer;
     [Export] Sprite2D planetPointer;
 
-    public float planetPower = 1;
     float speed = 200;
 
-    Vector2 velocity = new Vector2(150, 0);
+    Vector2 velocity = new Vector2(100, 0);
     Vector2 direction;
 
     Planet planetNear = null;
@@ -28,17 +23,10 @@ public partial class Ship : CharacterBody2D
     public override void _PhysicsProcess(double delta)
     {
         UpdateDirection();
-
-        velocity = velocity.Slerp(direction, 0.009f);
-        velocity = velocity.Normalized() * speed;
-
-        Velocity = velocity;
-        MoveAndSlide();
-        Rotation = velocity.Angle();
-        dirPointer.RotationDegrees = velocity.Angle();
-
+        CalculateVelocity();
         UpdateHelpers();
-        CheckForReset();
+
+        if (Input.IsActionJustPressed("reset")) Reset();
     }
 
     private void UpdateDirection()
@@ -55,6 +43,17 @@ public partial class Ship : CharacterBody2D
         }
     }
 
+    private void CalculateVelocity()
+    {
+        velocity = velocity.Slerp(direction, 0.009f);
+        velocity = velocity.Normalized() * speed;
+
+        Velocity = velocity;
+        MoveAndSlide();
+        Rotation = velocity.Angle();
+        dirPointer.RotationDegrees = velocity.Angle();
+    }
+
     private void OnGravityAreaEntered(Area2D area)
     {
         if (area.GetParent() is not Planet) return;
@@ -67,14 +66,11 @@ public partial class Ship : CharacterBody2D
         planetNear = null;
     }
 
-    private void CheckForReset()
+    public void Reset()
     {
-        if (Input.IsActionJustPressed("reset"))
-        {
-            GlobalPosition = new Vector2(-243, 89);
-            velocity = new Vector2(150, 0);
-            RotationDegrees = 0;
-        }
+        GlobalPosition = new Vector2(-243, 89);
+        velocity = new Vector2(150, 0);
+        RotationDegrees = 0;
     }
 
     private void UpdateHelpers()
@@ -88,10 +84,5 @@ public partial class Ship : CharacterBody2D
         {
             planetPointer.Visible = false;
         }
-
-        speedLabel.Text = Velocity.ToString();
-        totalVelLabel.Text = (Mathf.Abs(Velocity.X) + Mathf.Abs(Velocity.Y)).ToString();
-        dirLabel.Text = direction.ToString();
-        planetPowerLabel.Text = planetPower.ToString();
     }
 }

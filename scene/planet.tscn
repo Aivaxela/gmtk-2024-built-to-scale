@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dbxyqlcc7cohr"]
+[gd_scene load_steps=14 format=3 uid="uid://dbxyqlcc7cohr"]
 
 [ext_resource type="Texture2D" uid="uid://c6iw5ta26xsqo" path="res://sprites/planet-1-outline.png" id="1_j2hhp"]
 [ext_resource type="Script" path="res://scripts/Planet.cs" id="1_q4200"]
@@ -6,9 +6,10 @@
 [ext_resource type="Texture2D" uid="uid://dnmnjms50g7cf" path="res://sprites/planet-1-specks.png" id="4_f78pe"]
 [ext_resource type="Texture2D" uid="uid://bwkefdhygjh6t" path="res://sprites/planet-1-shade.png" id="5_h0ka5"]
 [ext_resource type="Texture2D" uid="uid://tuoetl6d2q3r" path="res://sprites/planet-gravity-ring.png" id="6_teery"]
+[ext_resource type="Texture2D" uid="uid://ds73e6qplvc1x" path="res://sprites/planet-select.png" id="7_20fca"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_q0ygi"]
-radius = 505.396
+radius = 500.0
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_t6nfn"]
 particles_animation = true
@@ -37,11 +38,16 @@ scale_max = 2.0
 color_ramp = SubResource("GradientTexture1D_pdkpk")
 anim_offset_max = 1.0
 
-[node name="planet" type="Node2D" node_paths=PackedStringArray("gravityArea", "sprite")]
+[sub_resource type="CircleShape2D" id="CircleShape2D_vn3l6"]
+radius = 40.4475
+
+[node name="planet" type="Node2D" node_paths=PackedStringArray("gravityArea", "shipCheckArea", "sprite", "selectionSprite")]
 position = Vector2(179, -24)
 script = ExtResource("1_q4200")
 gravityArea = NodePath("gravity-area")
+shipCheckArea = NodePath("Sprite2D/ship-check")
 sprite = NodePath("Sprite2D")
+selectionSprite = NodePath("Sprite2D/selectr")
 
 [node name="gravity-area" type="Area2D" parent="."]
 collision_mask = 0
@@ -62,14 +68,28 @@ show_behind_parent = true
 clip_children = 2
 texture = ExtResource("3_3l5k6")
 
+[node name="shade" type="Sprite2D" parent="Sprite2D/inner"]
+texture = ExtResource("5_h0ka5")
+
 [node name="GPUParticles2D" type="GPUParticles2D" parent="Sprite2D/inner"]
 material = SubResource("CanvasItemMaterial_t6nfn")
 position = Vector2(-113, 20)
-amount = 1000
+scale = Vector2(1, 1)
+amount = 1500
 process_material = SubResource("ParticleProcessMaterial_q1elm")
 texture = ExtResource("4_f78pe")
 lifetime = 20.0
 preprocess = 30.0
 
-[node name="shade" type="Sprite2D" parent="Sprite2D/inner"]
-texture = ExtResource("5_h0ka5")
+[node name="selectr" type="Sprite2D" parent="Sprite2D"]
+visible = false
+texture = ExtResource("7_20fca")
+
+[node name="ship-check" type="Area2D" parent="Sprite2D"]
+position = Vector2(1, 0)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/ship-check"]
+shape = SubResource("CircleShape2D_vn3l6")
+debug_color = Color(0.956863, 0, 0.545098, 0.243137)

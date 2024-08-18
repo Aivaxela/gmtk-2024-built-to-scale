@@ -18,8 +18,8 @@ config/icon="res://icon.svg"
 
 [display]
 
-window/size/viewport_width=1280
-window/size/viewport_height=720
+window/size/viewport_width=1920
+window/size/viewport_height=1280
 window/stretch/mode="viewport"
 
 [dotnet]
@@ -52,6 +52,7 @@ reset={
 [layer_names]
 
 2d_physics/layer_1="planet-gravity"
+2d_physics/layer_2="ship"
 
 [rendering]
 
