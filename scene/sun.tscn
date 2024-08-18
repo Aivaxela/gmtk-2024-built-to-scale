@@ -1,0 +1,251 @@
+[gd_scene load_steps=11 format=3 uid="uid://dtnnci13fmaw8"]
+
+[ext_resource type="Script" path="res://scripts/Sun.cs" id="1_r6b3k"]
+[ext_resource type="Texture2D" uid="uid://b2yvf0oyr3h3b" path="res://sprites/sun.png" id="2_eekpo"]
+[ext_resource type="Texture2D" uid="uid://13utix0uu7q4" path="res://sprites/sun-particle.png" id="3_fky5g"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_uie3i"]
+particles_animation = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id="Gradient_4f430"]
+offsets = PackedFloat32Array(0, 0.724638, 0.985507)
+colors = PackedColorArray(0.964706, 0.733333, 0.305882, 1, 0.960784, 0.913725, 0.509804, 1, 1, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_felky"]
+gradient = SubResource("Gradient_4f430")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_nsr60"]
+particle_flag_disable_z = true
+emission_shape = 2
+emission_sphere_radius = 128.0
+spread = 180.0
+initial_velocity_min = 5.0
+initial_velocity_max = 15.0
+angular_velocity_min = -100.0
+angular_velocity_max = 100.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.1
+scale_max = 3.0
+color_ramp = SubResource("GradientTexture1D_felky")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xs74c"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pqcfg"]
+radius = 86.0233
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_kmbba"]
+a = Vector2(0, 900)
+b = Vector2(0, -900)
+
+[node name="sun" type="CharacterBody2D" node_paths=PackedStringArray("shipCheckArea")]
+script = ExtResource("1_r6b3k")
+shipCheckArea = NodePath("ship-check")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(347, 7)
+texture = ExtResource("2_eekpo")
+centered = false
+offset = Vector2(-2000, -800)
+
+[node name="sun-particles" type="Node2D" parent="."]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="sun-particles"]
+material = SubResource("CanvasItemMaterial_uie3i")
+position = Vector2(-718, -2)
+amount = 1000
+process_material = SubResource("ParticleProcessMaterial_nsr60")
+texture = ExtResource("3_fky5g")
+lifetime = 5.0
+preprocess = 10.0
+visibility_rect = Rect2(-250, -500, 500, 1000)
+local_coords = true
+
+[node name="GPUParticles2D2" type="GPUParticles2D" parent="sun-particles"]
+material = SubResource("CanvasItemMaterial_uie3i")
+position = Vector2(-698, -176)
+amount = 1000
+process_material = SubResource("ParticleProcessMaterial_nsr60")
+texture = ExtResource("3_fky5g")
+lifetime = 5.0
+preprocess = 10.0
+visibility_rect = Rect2(-250, -500, 500, 1000)
+local_coords = true
+
+[node name="GPUParticles2D3" type="GPUParticles2D" parent="sun-particles"]
+material = SubResource("CanvasItemMaterial_uie3i")
+position = Vector2(-717, -383)
+amount = 1000
+process_material = SubResource("ParticleProcessMaterial_nsr60")
+texture = ExtResource("3_fky5g")
+lifetime = 5.0
+preprocess = 10.0
+visibility_rect = Rect2(-250, -500, 500, 1000)
+local_coords = true
+
+[node name="GPUParticles2D4" type="GPUParticles2D" parent="sun-particles"]
+material = SubResource("CanvasItemMaterial_uie3i")
+position = Vector2(-730, -570)
+amount = 1000
+process_material = SubResource("ParticleProcessMaterial_nsr60")
+texture = ExtResource("3_fky5g")
+lifetime = 5.0
+preprocess = 10.0
+visibility_rect = Rect2(-250, -500, 500, 1000)
+local_coords = true
+
+[node name="GPUParticles2D5" type="GPUParticles2D" parent="sun-particles"]
+material = SubResource("CanvasItemMaterial_uie3i")
+position = Vector2(-703, 175)
+amount = 1000
+process_material = SubResource("ParticleProcessMaterial_nsr60")
+texture = ExtResource("3_fky5g")
+lifetime = 5.0
+preprocess = 10.0
+visibility_rect = Rect2(-250, -500, 500, 1000)
+local_coords = true
+
+[node name="GPUParticles2D6" type="GPUParticles2D" parent="sun-particles"]
+material = SubResource("CanvasItemMaterial_uie3i")
+position = Vector2(-722, 387)
+amount = 1000
+process_material = SubResource("ParticleProcessMaterial_nsr60")
+texture = ExtResource("3_fky5g")
+lifetime = 5.0
+preprocess = 10.0
+visibility_rect = Rect2(-250, -500, 500, 1000)
+local_coords = true
+
+[node name="GPUParticles2D7" type="GPUParticles2D" parent="sun-particles"]
+material = SubResource("CanvasItemMaterial_uie3i")
+position = Vector2(-748, 549)
+amount = 1000
+process_material = SubResource("ParticleProcessMaterial_nsr60")
+texture = ExtResource("3_fky5g")
+lifetime = 5.0
+preprocess = 10.0
+visibility_rect = Rect2(-250, -500, 500, 1000)
+local_coords = true
+
+[node name="GPUParticles2D8" type="GPUParticles2D" parent="sun-particles"]
+material = SubResource("CanvasItemMaterial_uie3i")
+position = Vector2(-770, 721)
+amount = 1000
+process_material = SubResource("ParticleProcessMaterial_nsr60")
+texture = ExtResource("3_fky5g")
+lifetime = 5.0
+preprocess = 10.0
+visibility_rect = Rect2(-250, -500, 500, 1000)
+local_coords = true
+
+[node name="GPUParticles2D9" type="GPUParticles2D" parent="sun-particles"]
+material = SubResource("CanvasItemMaterial_uie3i")
+position = Vector2(-759, -720)
+amount = 1000
+process_material = SubResource("ParticleProcessMaterial_nsr60")
+texture = ExtResource("3_fky5g")
+lifetime = 5.0
+preprocess = 10.0
+visibility_rect = Rect2(-250, -500, 500, 1000)
+local_coords = true
+
+[node name="GPUParticles2D10" type="GPUParticles2D" parent="sun-particles"]
+material = SubResource("CanvasItemMaterial_uie3i")
+position = Vector2(-944, 3)
+amount = 1000
+process_material = SubResource("ParticleProcessMaterial_nsr60")
+texture = ExtResource("3_fky5g")
+lifetime = 5.0
+preprocess = 10.0
+visibility_rect = Rect2(-250, -500, 500, 1000)
+local_coords = true
+
+[node name="GPUParticles2D11" type="GPUParticles2D" parent="sun-particles"]
+material = SubResource("CanvasItemMaterial_uie3i")
+position = Vector2(-923, -210)
+amount = 1000
+process_material = SubResource("ParticleProcessMaterial_nsr60")
+texture = ExtResource("3_fky5g")
+lifetime = 5.0
+preprocess = 10.0
+visibility_rect = Rect2(-250, -500, 500, 1000)
+local_coords = true
+
+[node name="GPUParticles2D12" type="GPUParticles2D" parent="sun-particles"]
+material = SubResource("CanvasItemMaterial_uie3i")
+position = Vector2(-936, -452)
+amount = 1000
+process_material = SubResource("ParticleProcessMaterial_nsr60")
+texture = ExtResource("3_fky5g")
+lifetime = 5.0
+preprocess = 10.0
+visibility_rect = Rect2(-250, -500, 500, 1000)
+local_coords = true
+
+[node name="GPUParticles2D13" type="GPUParticles2D" parent="sun-particles"]
+material = SubResource("CanvasItemMaterial_uie3i")
+position = Vector2(-964, -651)
+amount = 1000
+process_material = SubResource("ParticleProcessMaterial_nsr60")
+texture = ExtResource("3_fky5g")
+lifetime = 5.0
+preprocess = 10.0
+visibility_rect = Rect2(-250, -500, 500, 1000)
+local_coords = true
+
+[node name="GPUParticles2D14" type="GPUParticles2D" parent="sun-particles"]
+material = SubResource("CanvasItemMaterial_uie3i")
+position = Vector2(-925, 227)
+amount = 1000
+process_material = SubResource("ParticleProcessMaterial_nsr60")
+texture = ExtResource("3_fky5g")
+lifetime = 5.0
+preprocess = 10.0
+visibility_rect = Rect2(-250, -500, 500, 1000)
+local_coords = true
+
+[node name="GPUParticles2D15" type="GPUParticles2D" parent="sun-particles"]
+material = SubResource("CanvasItemMaterial_uie3i")
+position = Vector2(-951, 431)
+amount = 1000
+process_material = SubResource("ParticleProcessMaterial_nsr60")
+texture = ExtResource("3_fky5g")
+lifetime = 5.0
+preprocess = 10.0
+visibility_rect = Rect2(-250, -500, 500, 1000)
+local_coords = true
+
+[node name="GPUParticles2D16" type="GPUParticles2D" parent="sun-particles"]
+material = SubResource("CanvasItemMaterial_uie3i")
+position = Vector2(-981, 619)
+amount = 1000
+process_material = SubResource("ParticleProcessMaterial_nsr60")
+texture = ExtResource("3_fky5g")
+lifetime = 5.0
+preprocess = 10.0
+visibility_rect = Rect2(-250, -500, 500, 1000)
+local_coords = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1609, 0)
+shape = SubResource("CircleShape2D_xs74c")
+
+[node name="ship-check" type="Area2D" parent="."]
+position = Vector2(-1632, -2)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ship-check"]
+position = Vector2(912, 0)
+shape = SubResource("CircleShape2D_pqcfg")
+debug_color = Color(0.956863, 0, 0.545098, 0.243137)
+
+[node name="planet-burning-area" type="Area2D" parent="."]
+position = Vector2(-438, 0)
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="planet-burning-area"]
+shape = SubResource("SegmentShape2D_kmbba")

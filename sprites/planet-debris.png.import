@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cg17iwe8q8bp4"
-path="res://.godot/imported/parallax-4.png-1f52a5a131c422112b6c2981afd5f97c.ctex"
+uid="uid://c8e1v1x0lfrpn"
+path="res://.godot/imported/planet-debris.png-c9766be1ff1ae4d7bbaf025c78a3c3fa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/parallax-4.png"
-dest_files=["res://.godot/imported/parallax-4.png-1f52a5a131c422112b6c2981afd5f97c.ctex"]
+source_file="res://sprites/planet-debris.png"
+dest_files=["res://.godot/imported/planet-debris.png-c9766be1ff1ae4d7bbaf025c78a3c3fa.ctex"]
 
 [params]
 

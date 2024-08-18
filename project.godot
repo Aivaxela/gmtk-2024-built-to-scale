@@ -53,6 +53,9 @@ reset={
 
 2d_physics/layer_1="planet-gravity"
 2d_physics/layer_2="ship"
+2d_physics/layer_3="boundaries"
+2d_physics/layer_4="comet-spawn"
+2d_physics/layer_5="planet-burning"
 
 [rendering]
 

@@ -6,6 +6,9 @@ public partial class Planet : Node2D
     [Export] Area2D shipCheckArea;
     [Export] Sprite2D sprite;
     [Export] Sprite2D selectionSprite;
+    [Export] AnimationPlayer animPlayer;
+    [Export] Timer destroyTimer;
+    [Export] PackedScene planetDestroyScene;
 
     Ship ship;
     float planetScale = 1;
@@ -18,6 +21,8 @@ public partial class Planet : Node2D
         gravityArea.MouseEntered += OnMouseEntered;
         gravityArea.MouseExited += OnMouseExited;
         shipCheckArea.AreaEntered += OnAreaEntered;
+
+        if (destroyTimer != null) destroyTimer.Timeout += OnTimeout;
     }
 
     public override void _PhysicsProcess(double delta)
@@ -32,6 +37,7 @@ public partial class Planet : Node2D
 
     private void OnMouseEntered()
     {
+        if (!destroyTimer.IsStopped()) return;
         selectionSprite.Visible = true;
         isSelected = true;
     }
@@ -44,7 +50,21 @@ public partial class Planet : Node2D
 
     private void OnAreaEntered(Area2D area)
     {
-        Ship ship = (Ship)area.GetParent();
+        if (area.GetParent() is Sun && destroyTimer != null)
+        {
+            animPlayer.Play("burn up");
+            destroyTimer.Start();
+            return;
+        }
         ship?.Reset();
+    }
+
+    private void OnTimeout()
+    {
+        PlanetDebris planetDebris = (PlanetDebris)planetDestroyScene.Instantiate();
+        planetDebris.GlobalPosition = GlobalPosition;
+        RemoveChild(planetDebris);
+        GetParent().AddChild(planetDebris);
+        QueueFree();
     }
 }

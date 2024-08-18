@@ -4,6 +4,7 @@ public partial class Comet : CharacterBody2D
 {
     [Export] Area2D gravityArea;
     [Export] Area2D shipCheckArea;
+    [Export] Area2D spawnArea;
     [Export] Sprite2D sprite;
     [Export] Sprite2D selectionSprite;
     [Export] GpuParticles2D particles;
@@ -11,7 +12,7 @@ public partial class Comet : CharacterBody2D
     Ship ship;
     float planetScale = 1;
     bool isSelected = false;
-    Vector2 velocity = new Vector2(100, 50);
+    Vector2 velocity = new Vector2(0, 0);
 
     public override void _Ready()
     {
@@ -20,6 +21,7 @@ public partial class Comet : CharacterBody2D
         gravityArea.MouseEntered += OnMouseEntered;
         gravityArea.MouseExited += OnMouseExited;
         shipCheckArea.AreaEntered += OnAreaEntered;
+        spawnArea.AreaEntered += OnSpawnAreaEntered;
     }
 
     public override void _PhysicsProcess(double delta)
@@ -53,5 +55,10 @@ public partial class Comet : CharacterBody2D
     {
         Ship ship = (Ship)area.GetParent();
         ship?.Reset();
+    }
+
+    private void OnSpawnAreaEntered(object _)
+    {
+        velocity = new Vector2(120, 120);
     }
 }

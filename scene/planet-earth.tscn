@@ -1,12 +1,50 @@
-[gd_scene load_steps=12 format=3 uid="uid://bla8m4yayvh8r"]
+[gd_scene load_steps=16 format=3 uid="uid://bla8m4yayvh8r"]
 
 [ext_resource type="Script" path="res://scripts/Planet.cs" id="1_ft1d7"]
+[ext_resource type="PackedScene" uid="uid://bdkgj5gmledl" path="res://scene/planet-debris.tscn" id="2_b0swe"]
 [ext_resource type="Texture2D" uid="uid://tuoetl6d2q3r" path="res://sprites/planet-gravity-ring.png" id="2_iqfy2"]
 [ext_resource type="Texture2D" uid="uid://c6iw5ta26xsqo" path="res://sprites/planet-outline.png" id="3_npbl4"]
 [ext_resource type="Texture2D" uid="uid://dbpxeby3yxrkn" path="res://sprites/planet-earth-inner.png" id="4_qwwqv"]
 [ext_resource type="Texture2D" uid="uid://bxs2s811n8rce" path="res://sprites/planet-earth-clouds.png" id="5_jxnxi"]
 [ext_resource type="Texture2D" uid="uid://bwkefdhygjh6t" path="res://sprites/planet-shade.png" id="5_uqtht"]
 [ext_resource type="Texture2D" uid="uid://ds73e6qplvc1x" path="res://sprites/planet-select.png" id="6_ciivp"]
+
+[sub_resource type="Animation" id="Animation_y43im"]
+resource_name = "burn up"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_l8igd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_be7xe"]
+_data = {
+"RESET": SubResource("Animation_l8igd"),
+"burn up": SubResource("Animation_y43im")
+}
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_q0ygi"]
 radius = 500.0
@@ -32,13 +70,25 @@ anim_offset_max = 1.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_vn3l6"]
 radius = 40.4475
 
-[node name="planet-earth" type="Node2D" node_paths=PackedStringArray("gravityArea", "shipCheckArea", "sprite", "selectionSprite")]
+[node name="planet-earth" type="Node2D" node_paths=PackedStringArray("gravityArea", "shipCheckArea", "sprite", "selectionSprite", "animPlayer", "destroyTimer")]
 position = Vector2(179, -24)
 script = ExtResource("1_ft1d7")
 gravityArea = NodePath("gravity-area")
 shipCheckArea = NodePath("Sprite2D/ship-check")
 sprite = NodePath("Sprite2D")
 selectionSprite = NodePath("Sprite2D/selectr")
+animPlayer = NodePath("AnimationPlayer")
+destroyTimer = NodePath("Timer")
+planetDestroyScene = ExtResource("2_b0swe")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 6.0
+one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_be7xe")
+}
 
 [node name="gravity-area" type="Area2D" parent="."]
 collision_mask = 0
@@ -53,6 +103,11 @@ texture = ExtResource("2_iqfy2")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-1, 0)
 texture = ExtResource("3_npbl4")
+
+[node name="selectr" type="Sprite2D" parent="Sprite2D"]
+visible = false
+z_index = -1
+texture = ExtResource("6_ciivp")
 
 [node name="inner" type="Sprite2D" parent="Sprite2D"]
 show_behind_parent = true
@@ -72,15 +127,11 @@ preprocess = 30.0
 [node name="shade" type="Sprite2D" parent="Sprite2D/inner"]
 texture = ExtResource("5_uqtht")
 
-[node name="selectr" type="Sprite2D" parent="Sprite2D"]
-visible = false
-texture = ExtResource("6_ciivp")
-
 [node name="ship-check" type="Area2D" parent="Sprite2D"]
 visible = false
 position = Vector2(1, 0)
 collision_layer = 0
-collision_mask = 2
+collision_mask = 18
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/ship-check"]
 shape = SubResource("CircleShape2D_vn3l6")

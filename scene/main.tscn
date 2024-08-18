@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cmb3v75n0j57t"]
+[gd_scene load_steps=18 format=3 uid="uid://cmb3v75n0j57t"]
 
 [ext_resource type="Script" path="res://scripts/Main.cs" id="1_1lnp4"]
 [ext_resource type="Script" path="res://scripts/Camera.cs" id="1_d2gsj"]
@@ -7,7 +7,6 @@
 [ext_resource type="Texture2D" uid="uid://c1oqv7i2hhhj6" path="res://sprites/parallax-1.png" id="5_xrwp7"]
 [ext_resource type="Texture2D" uid="uid://10elfx8cpdun" path="res://sprites/parallax-2.png" id="6_qtlgi"]
 [ext_resource type="Texture2D" uid="uid://b6gl8kdvmpf2e" path="res://sprites/parallax-3.png" id="7_by3pu"]
-[ext_resource type="Texture2D" uid="uid://cg17iwe8q8bp4" path="res://sprites/parallax-4.png" id="8_4ygsq"]
 [ext_resource type="Texture2D" uid="uid://cm47di47i1hwj" path="res://sprites/parallax-5.png" id="8_pbo15"]
 [ext_resource type="PackedScene" uid="uid://djf880mbi2nqj" path="res://scene/planet-merc.tscn" id="9_06ets"]
 [ext_resource type="Texture2D" uid="uid://drhoo4sm70ka" path="res://sprites/parallax-6.png" id="10_4gmp4"]
@@ -15,9 +14,39 @@
 [ext_resource type="PackedScene" uid="uid://biakw32ljn108" path="res://scene/planet-mars.tscn" id="11_ox6sk"]
 [ext_resource type="PackedScene" uid="uid://bla8m4yayvh8r" path="res://scene/planet-earth.tscn" id="12_dp6bp"]
 [ext_resource type="PackedScene" uid="uid://bnshyqijxnewi" path="res://scene/comet.tscn" id="14_yu1dr"]
+[ext_resource type="PackedScene" uid="uid://dtnnci13fmaw8" path="res://scene/sun.tscn" id="15_mx2ub"]
+[ext_resource type="Script" path="res://scripts/Boundaries.cs" id="16_n2dui"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xvr32"]
+size = Vector2(217, 20)
 
 [node name="main" type="Node"]
 script = ExtResource("1_1lnp4")
+
+[node name="camera" type="Camera2D" parent="." node_paths=PackedStringArray("ship", "boostingLabel")]
+script = ExtResource("1_d2gsj")
+ship = NodePath("../ship")
+boostingLabel = NodePath("boosting")
+
+[node name="boosting" type="Label" parent="camera"]
+offset_left = 846.0
+offset_top = -615.0
+offset_right = 929.0
+offset_bottom = -592.0
+text = "BOOSTING"
+
+[node name="boundaries" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("16_n2dui")
+
+[node name="top-bound" type="CollisionShape2D" parent="boundaries"]
+position = Vector2(0, -1500)
+shape = SubResource("RectangleShape2D_xvr32")
+
+[node name="bottom-bound" type="CollisionShape2D" parent="boundaries"]
+position = Vector2(0, 1500)
+shape = SubResource("RectangleShape2D_xvr32")
 
 [node name="bgs" type="Node" parent="."]
 
@@ -45,14 +74,6 @@ repeat_times = 4
 [node name="Sprite2D" type="Sprite2D" parent="bgs/stars-3"]
 texture = ExtResource("7_by3pu")
 
-[node name="stars-4" type="Parallax2D" parent="bgs"]
-scroll_scale = Vector2(0.5, 0.5)
-repeat_size = Vector2(1280, 1280)
-repeat_times = 4
-
-[node name="Sprite2D" type="Sprite2D" parent="bgs/stars-4"]
-texture = ExtResource("8_4ygsq")
-
 [node name="stars-5" type="Parallax2D" parent="bgs"]
 scroll_scale = Vector2(0.15, 0.15)
 repeat_size = Vector2(1280, 1280)
@@ -71,31 +92,33 @@ repeat_times = 4
 modulate = Color(1, 1, 1, 0.486275)
 texture = ExtResource("10_4gmp4")
 
-[node name="camera" type="Camera2D" parent="." node_paths=PackedStringArray("ship")]
-script = ExtResource("1_d2gsj")
-ship = NodePath("../ship")
-
 [node name="planets" type="Node" parent="."]
 
 [node name="planet-x" parent="planets" instance=ExtResource("5_fjy7s")]
-position = Vector2(519, 233)
+position = Vector2(776, 278)
+
+[node name="planet-x2" parent="planets" instance=ExtResource("5_fjy7s")]
+position = Vector2(6241, 1059)
 
 [node name="planet-merc" parent="planets" instance=ExtResource("9_06ets")]
-position = Vector2(1297, -138)
+position = Vector2(1554, -93)
 
 [node name="planet-venus" parent="planets" instance=ExtResource("11_1fbjj")]
-position = Vector2(2064, 556)
+position = Vector2(2321, 601)
 
 [node name="planet-earth" parent="planets" instance=ExtResource("12_dp6bp")]
-position = Vector2(2775, -289)
+position = Vector2(3032, -244)
 
 [node name="planet-mars" parent="planets" instance=ExtResource("11_ox6sk")]
-position = Vector2(3775, -638)
+position = Vector2(166, -111)
 
 [node name="comets" type="Node" parent="."]
 
 [node name="comet" parent="comets" instance=ExtResource("14_yu1dr")]
-position = Vector2(-585, 94)
+position = Vector2(3578, -1290)
 
 [node name="ship" parent="." instance=ExtResource("4_2cdsw")]
-position = Vector2(-942, 336)
+position = Vector2(149, 9)
+
+[node name="sun" parent="." instance=ExtResource("15_mx2ub")]
+position = Vector2(388, 0)
