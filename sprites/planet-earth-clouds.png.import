@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c6iw5ta26xsqo"
-path="res://.godot/imported/planet-1-outline.png-0d89c2c28b19bd3a8e575302cd82143e.ctex"
+uid="uid://bxs2s811n8rce"
+path="res://.godot/imported/planet-earth-clouds.png-d2c5a32f930fb8fc2efec5e992e464dc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/planet-1-outline.png"
-dest_files=["res://.godot/imported/planet-1-outline.png-0d89c2c28b19bd3a8e575302cd82143e.ctex"]
+source_file="res://sprites/planet-earth-clouds.png"
+dest_files=["res://.godot/imported/planet-earth-clouds.png-d2c5a32f930fb8fc2efec5e992e464dc.ctex"]
 
 [params]
 

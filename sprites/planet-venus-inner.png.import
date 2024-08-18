@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b2m3wdxh65qta"
-path="res://.godot/imported/planet-2-clouds.png-b478048a0c762ebfa0d9953616d208f7.ctex"
+uid="uid://byx1qgqnb6y3i"
+path="res://.godot/imported/planet-venus-inner.png-a0da1e8c26e0c113799067c026204950.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/planet-2-clouds.png"
-dest_files=["res://.godot/imported/planet-2-clouds.png-b478048a0c762ebfa0d9953616d208f7.ctex"]
+source_file="res://sprites/planet-venus-inner.png"
+dest_files=["res://.godot/imported/planet-venus-inner.png-a0da1e8c26e0c113799067c026204950.ctex"]
 
 [params]
 

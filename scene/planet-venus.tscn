@@ -1,12 +1,12 @@
-[gd_scene load_steps=14 format=3 uid="uid://biakw32ljn108"]
+[gd_scene load_steps=14 format=3 uid="uid://qes2ltlb2fmx"]
 
-[ext_resource type="Script" path="res://scripts/Planet.cs" id="1_lumku"]
-[ext_resource type="Texture2D" uid="uid://tuoetl6d2q3r" path="res://sprites/planet-gravity-ring.png" id="2_m53xn"]
-[ext_resource type="Texture2D" uid="uid://c6iw5ta26xsqo" path="res://sprites/planet-1-outline.png" id="3_cki0m"]
-[ext_resource type="Texture2D" uid="uid://btfyxwvty2hre" path="res://sprites/planet-2-inner.png" id="4_ns3hk"]
-[ext_resource type="Texture2D" uid="uid://bwkefdhygjh6t" path="res://sprites/planet-1-shade.png" id="5_cob6l"]
-[ext_resource type="Texture2D" uid="uid://b2m3wdxh65qta" path="res://sprites/planet-2-clouds.png" id="6_bxwb7"]
-[ext_resource type="Texture2D" uid="uid://ds73e6qplvc1x" path="res://sprites/planet-select.png" id="7_8vuh6"]
+[ext_resource type="Script" path="res://scripts/Planet.cs" id="1_l7uiw"]
+[ext_resource type="Texture2D" uid="uid://tuoetl6d2q3r" path="res://sprites/planet-gravity-ring.png" id="2_ds8xg"]
+[ext_resource type="Texture2D" uid="uid://c6iw5ta26xsqo" path="res://sprites/planet-outline.png" id="3_fyrrx"]
+[ext_resource type="Texture2D" uid="uid://byx1qgqnb6y3i" path="res://sprites/planet-venus-inner.png" id="4_qb76s"]
+[ext_resource type="Texture2D" uid="uid://bxs2s811n8rce" path="res://sprites/planet-earth-clouds.png" id="5_ly4u3"]
+[ext_resource type="Texture2D" uid="uid://bwkefdhygjh6t" path="res://sprites/planet-shade.png" id="6_eixas"]
+[ext_resource type="Texture2D" uid="uid://ds73e6qplvc1x" path="res://sprites/planet-select.png" id="7_w64qj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_q0ygi"]
 radius = 500.0
@@ -19,12 +19,12 @@ particles_anim_loop = false
 
 [sub_resource type="Gradient" id="Gradient_5rwk8"]
 offsets = PackedFloat32Array(0, 0.855072, 1)
-colors = PackedColorArray(1, 1, 1, 0.352941, 1, 1, 1, 0.352941, 1, 1, 1, 0)
+colors = PackedColorArray(1, 1, 1, 0.509804, 1, 1, 1, 0.52549, 1, 1, 1, 0)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_yjx88"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ghwtm"]
 gradient = SubResource("Gradient_5rwk8")
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_q1elm"]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_65up4"]
 particle_flag_disable_z = true
 emission_shape = 3
 emission_box_extents = Vector3(1, 200, 1)
@@ -34,16 +34,16 @@ initial_velocity_max = 3.0
 orbit_velocity_min = 0.0150001
 orbit_velocity_max = 0.0200001
 gravity = Vector3(1, 0, 0)
-color = Color(1, 1, 1, 0.756863)
-color_ramp = SubResource("GradientTexture1D_yjx88")
+color = Color(1, 0.258824, 0.2, 0.564706)
+color_ramp = SubResource("GradientTexture1D_ghwtm")
 anim_offset_max = 1.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vn3l6"]
 radius = 40.4475
 
-[node name="planet-1" type="Node2D" node_paths=PackedStringArray("gravityArea", "shipCheckArea", "sprite", "selectionSprite")]
+[node name="planet-venus" type="Node2D" node_paths=PackedStringArray("gravityArea", "shipCheckArea", "sprite", "selectionSprite")]
 position = Vector2(179, -24)
-script = ExtResource("1_lumku")
+script = ExtResource("1_l7uiw")
 gravityArea = NodePath("gravity-area")
 shipCheckArea = NodePath("Sprite2D/ship-check")
 sprite = NodePath("Sprite2D")
@@ -57,33 +57,33 @@ shape = SubResource("CircleShape2D_q0ygi")
 debug_color = Color(0, 0.6, 0.701961, 0.168627)
 
 [node name="grav-ring" type="Sprite2D" parent="gravity-area/CollisionShape2D"]
-texture = ExtResource("2_m53xn")
+texture = ExtResource("2_ds8xg")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-1, 0)
-texture = ExtResource("3_cki0m")
+texture = ExtResource("3_fyrrx")
 
 [node name="inner" type="Sprite2D" parent="Sprite2D"]
 show_behind_parent = true
 clip_children = 2
 position = Vector2(1, 0)
-texture = ExtResource("4_ns3hk")
-
-[node name="shade" type="Sprite2D" parent="Sprite2D/inner"]
-texture = ExtResource("5_cob6l")
+texture = ExtResource("4_qb76s")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="Sprite2D/inner"]
 material = SubResource("CanvasItemMaterial_t6nfn")
 position = Vector2(-113, 20)
 amount = 150
-process_material = SubResource("ParticleProcessMaterial_q1elm")
-texture = ExtResource("6_bxwb7")
+process_material = SubResource("ParticleProcessMaterial_65up4")
+texture = ExtResource("5_ly4u3")
 lifetime = 20.0
 preprocess = 30.0
 
+[node name="shade" type="Sprite2D" parent="Sprite2D/inner"]
+texture = ExtResource("6_eixas")
+
 [node name="selectr" type="Sprite2D" parent="Sprite2D"]
 visible = false
-texture = ExtResource("7_8vuh6")
+texture = ExtResource("7_w64qj")
 
 [node name="ship-check" type="Area2D" parent="Sprite2D"]
 visible = false

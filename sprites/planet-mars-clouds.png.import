@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://csylgx2asodn0"
-path="res://.godot/imported/planet-1-inner.png-e521abd405fff0ebbda8f0eeb795f7bc.ctex"
+uid="uid://b2m3wdxh65qta"
+path="res://.godot/imported/planet-mars-clouds.png-1f5052628850c632535ff345a62b9fc4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/planet-1-inner.png"
-dest_files=["res://.godot/imported/planet-1-inner.png-e521abd405fff0ebbda8f0eeb795f7bc.ctex"]
+source_file="res://sprites/planet-mars-clouds.png"
+dest_files=["res://.godot/imported/planet-mars-clouds.png-1f5052628850c632535ff345a62b9fc4.ctex"]
 
 [params]
 

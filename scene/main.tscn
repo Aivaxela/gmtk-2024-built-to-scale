@@ -1,16 +1,20 @@
-[gd_scene load_steps=12 format=3 uid="uid://cmb3v75n0j57t"]
+[gd_scene load_steps=16 format=3 uid="uid://cmb3v75n0j57t"]
 
 [ext_resource type="Script" path="res://scripts/Main.cs" id="1_1lnp4"]
 [ext_resource type="Script" path="res://scripts/Camera.cs" id="1_d2gsj"]
 [ext_resource type="PackedScene" uid="uid://cxvys3gvoltbj" path="res://scene/ship.tscn" id="4_2cdsw"]
-[ext_resource type="PackedScene" uid="uid://dbxyqlcc7cohr" path="res://scene/planet.tscn" id="5_fjy7s"]
+[ext_resource type="PackedScene" uid="uid://dbxyqlcc7cohr" path="res://scene/planet-x.tscn" id="5_fjy7s"]
 [ext_resource type="Texture2D" uid="uid://c1oqv7i2hhhj6" path="res://sprites/parallax-1.png" id="5_xrwp7"]
 [ext_resource type="Texture2D" uid="uid://10elfx8cpdun" path="res://sprites/parallax-2.png" id="6_qtlgi"]
 [ext_resource type="Texture2D" uid="uid://b6gl8kdvmpf2e" path="res://sprites/parallax-3.png" id="7_by3pu"]
 [ext_resource type="Texture2D" uid="uid://cg17iwe8q8bp4" path="res://sprites/parallax-4.png" id="8_4ygsq"]
 [ext_resource type="Texture2D" uid="uid://cm47di47i1hwj" path="res://sprites/parallax-5.png" id="8_pbo15"]
+[ext_resource type="PackedScene" uid="uid://djf880mbi2nqj" path="res://scene/planet-merc.tscn" id="9_06ets"]
 [ext_resource type="Texture2D" uid="uid://drhoo4sm70ka" path="res://sprites/parallax-6.png" id="10_4gmp4"]
-[ext_resource type="PackedScene" uid="uid://biakw32ljn108" path="res://scene/planet-2.tscn" id="11_ox6sk"]
+[ext_resource type="PackedScene" uid="uid://qes2ltlb2fmx" path="res://scene/planet-venus.tscn" id="11_1fbjj"]
+[ext_resource type="PackedScene" uid="uid://biakw32ljn108" path="res://scene/planet-mars.tscn" id="11_ox6sk"]
+[ext_resource type="PackedScene" uid="uid://bla8m4yayvh8r" path="res://scene/planet-earth.tscn" id="12_dp6bp"]
+[ext_resource type="PackedScene" uid="uid://csnm6egvrjyyp" path="res://scene/planet-jup.tscn" id="14_38xca"]
 
 [node name="main" type="Node"]
 script = ExtResource("1_1lnp4")
@@ -55,6 +59,7 @@ repeat_size = Vector2(1280, 1280)
 repeat_times = 4
 
 [node name="Sprite2D" type="Sprite2D" parent="bgs/stars-5"]
+modulate = Color(1, 1, 1, 0.482353)
 texture = ExtResource("8_pbo15")
 
 [node name="stars-6" type="Parallax2D" parent="bgs"]
@@ -63,17 +68,32 @@ repeat_size = Vector2(1280, 1280)
 repeat_times = 4
 
 [node name="Sprite2D" type="Sprite2D" parent="bgs/stars-6"]
+modulate = Color(1, 1, 1, 0.486275)
 texture = ExtResource("10_4gmp4")
 
 [node name="camera" type="Camera2D" parent="." node_paths=PackedStringArray("ship")]
 script = ExtResource("1_d2gsj")
 ship = NodePath("../ship")
 
-[node name="planet1" parent="." instance=ExtResource("5_fjy7s")]
-position = Vector2(198, -56)
+[node name="planets" type="Node" parent="."]
+
+[node name="planet-x" parent="planets" instance=ExtResource("5_fjy7s")]
+position = Vector2(519, 233)
+
+[node name="planet-merc" parent="planets" instance=ExtResource("9_06ets")]
+position = Vector2(1297, -138)
+
+[node name="planet-venus" parent="planets" instance=ExtResource("11_1fbjj")]
+position = Vector2(2064, 556)
+
+[node name="planet-earth" parent="planets" instance=ExtResource("12_dp6bp")]
+position = Vector2(2775, -289)
+
+[node name="planet-mars" parent="planets" instance=ExtResource("11_ox6sk")]
+position = Vector2(3775, -638)
+
+[node name="planet-jup" parent="planets" instance=ExtResource("14_38xca")]
+position = Vector2(9573, 6825)
 
 [node name="ship" parent="." instance=ExtResource("4_2cdsw")]
-position = Vector2(-579, 69)
-
-[node name="planet-1" parent="." instance=ExtResource("11_ox6sk")]
-position = Vector2(873, -391)
+position = Vector2(704, 2048)

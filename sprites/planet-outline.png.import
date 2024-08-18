@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bwkefdhygjh6t"
-path="res://.godot/imported/planet-1-shade.png-da3c55196373e47f760f675f1ef7b3cf.ctex"
+uid="uid://c6iw5ta26xsqo"
+path="res://.godot/imported/planet-outline.png-6db4fed5b8751ef9f6f82100dc314578.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/planet-1-shade.png"
-dest_files=["res://.godot/imported/planet-1-shade.png-da3c55196373e47f760f675f1ef7b3cf.ctex"]
+source_file="res://sprites/planet-outline.png"
+dest_files=["res://.godot/imported/planet-outline.png-6db4fed5b8751ef9f6f82100dc314578.ctex"]
 
 [params]
 
