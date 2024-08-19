@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://cmb3v75n0j57t"]
+[gd_scene load_steps=29 format=3 uid="uid://cmb3v75n0j57t"]
 
 [ext_resource type="Script" path="res://scripts/Main.cs" id="1_1lnp4"]
 [ext_resource type="Script" path="res://scripts/Camera.cs" id="1_d2gsj"]
@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://yn23sawboxyp" path="res://sprites/pod-boarding-fill.png" id="7_0u0ev"]
 [ext_resource type="Texture2D" uid="uid://b6gl8kdvmpf2e" path="res://sprites/parallax-3.png" id="7_by3pu"]
 [ext_resource type="Texture2D" uid="uid://cm47di47i1hwj" path="res://sprites/parallax-5.png" id="8_pbo15"]
+[ext_resource type="Texture2D" uid="uid://dnw04sjpguhu0" path="res://sprites/planet-jup.png" id="9_0kycm"]
 [ext_resource type="PackedScene" uid="uid://djf880mbi2nqj" path="res://scene/planet-merc.tscn" id="9_06ets"]
 [ext_resource type="Texture2D" uid="uid://drhoo4sm70ka" path="res://sprites/parallax-6.png" id="10_4gmp4"]
 [ext_resource type="PackedScene" uid="uid://qes2ltlb2fmx" path="res://scene/planet-venus.tscn" id="11_1fbjj"]
@@ -187,6 +188,10 @@ repeat_times = 4
 modulate = Color(1, 1, 1, 0.486275)
 texture = ExtResource("10_4gmp4")
 
+[node name="jup" type="Sprite2D" parent="bgs"]
+position = Vector2(2755, -1998)
+texture = ExtResource("9_0kycm")
+
 [node name="planets" type="Node" parent="."]
 
 [node name="planet-x" parent="planets" instance=ExtResource("5_fjy7s")]
@@ -211,10 +216,10 @@ position = Vector2(2006, -895)
 position = Vector2(6309, -107)
 
 [node name="planet-uranus" parent="planets" instance=ExtResource("21_gptuc")]
-position = Vector2(3170, -608)
+position = Vector2(2871, 279)
 
 [node name="planet-neptune" parent="planets" instance=ExtResource("22_4nyrq")]
-position = Vector2(3152, 268)
+position = Vector2(4276, -99)
 
 [node name="escape-pods" type="Node" parent="."]
 
@@ -238,7 +243,7 @@ velocity = Vector2(25, -13)
 speed = 250.0
 
 [node name="ship" parent="." node_paths=PackedStringArray("fuelLevelReadout", "infoLabel", "dockPoint", "boardingBar", "fuel", "podBoardingTimer") instance=ExtResource("4_2cdsw")]
-position = Vector2(1708, 0)
+position = Vector2(2256, 141)
 fuelLevelReadout = NodePath("../camera/fuel-level/readout")
 infoLabel = NodePath("../camera/info-label")
 dockPoint = NodePath("../warp-ship/dock-point")

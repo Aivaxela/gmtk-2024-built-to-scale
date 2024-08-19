@@ -39,11 +39,11 @@ public partial class Planet : Node2D
     {
         if (Input.IsActionPressed("scale-up") && planetScale < maxScale && isSelected) planetScale += 0.05f;
         if (Input.IsActionPressed("scale-down") && planetScale > 0.5 && isSelected) planetScale -= 0.05f;
-        if (Input.IsActionJustPressed("interact") && Name == "planet-earth")
+        if (Input.IsActionJustPressed("interact") && Name == "planet-earth" && ship.planetNear != null)
         {
             if (ship.planetNear.Name == "planet-earth" && ship.podReady) LaunchPodFromEarth();
         }
-        if (Input.IsActionJustPressed("interact") && Name == "planet-mars")
+        if (Input.IsActionJustPressed("interact") && Name == "planet-mars" && ship.planetNear != null)
         {
             if (ship.planetNear.Name == "planet-mars" && ship.warpShipReady) LaunchWSFromMars();
         }
@@ -124,7 +124,17 @@ public partial class Planet : Node2D
                 return;
             }
         }
+        if (area.GetParent() is Ship && ship.planetNear.Name == "planet-neptune")
+        {
+            CallDeferred("End");
+            return;
+        }
         ship?.PrepReset();
+    }
+
+    private void End()
+    {
+        GetTree().ChangeSceneToFile("res://scene/ending-scene.tscn");
     }
 
     private void OnTimeout()

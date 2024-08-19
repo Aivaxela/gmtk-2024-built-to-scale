@@ -16,6 +16,10 @@ config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 run/max_fps=60
 config/icon="res://sprites/planet-x-inner.png"
 
+[autoload]
+
+Session="*res://scripts/Session.cs"
+
 [display]
 
 window/size/viewport_width=1920

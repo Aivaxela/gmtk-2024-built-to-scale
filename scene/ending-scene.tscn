@@ -1,0 +1,134 @@
+[gd_scene load_steps=8 format=3 uid="uid://cr8ftukq1oi30"]
+
+[ext_resource type="FontFile" uid="uid://c1fipai1g5lc1" path="res://good_timing/good timing bd.otf" id="1_6wl5i"]
+[ext_resource type="Texture2D" uid="uid://c1oqv7i2hhhj6" path="res://sprites/parallax-1.png" id="2_iresy"]
+[ext_resource type="Texture2D" uid="uid://10elfx8cpdun" path="res://sprites/parallax-2.png" id="3_poutv"]
+[ext_resource type="Texture2D" uid="uid://b6gl8kdvmpf2e" path="res://sprites/parallax-3.png" id="4_4tmgw"]
+[ext_resource type="Texture2D" uid="uid://cm47di47i1hwj" path="res://sprites/parallax-5.png" id="5_jt0il"]
+[ext_resource type="Texture2D" uid="uid://drhoo4sm70ka" path="res://sprites/parallax-6.png" id="6_dwvpk"]
+[ext_resource type="Texture2D" uid="uid://dnw04sjpguhu0" path="res://sprites/planet-jup.png" id="7_kbtav"]
+
+[node name="Ending-scene" type="Node2D"]
+
+[node name="bgs" type="Node" parent="."]
+
+[node name="stars-1" type="Parallax2D" parent="bgs"]
+scroll_scale = Vector2(0.01, 0.01)
+repeat_size = Vector2(1280, 1280)
+repeat_times = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="bgs/stars-1"]
+texture = ExtResource("2_iresy")
+
+[node name="stars-2" type="Parallax2D" parent="bgs"]
+scroll_scale = Vector2(0.2, 0.2)
+repeat_size = Vector2(1280, 1280)
+repeat_times = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="bgs/stars-2"]
+texture = ExtResource("3_poutv")
+
+[node name="stars-3" type="Parallax2D" parent="bgs"]
+scroll_scale = Vector2(0.4, 0.4)
+repeat_size = Vector2(1280, 1280)
+repeat_times = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="bgs/stars-3"]
+texture = ExtResource("4_4tmgw")
+
+[node name="stars-5" type="Parallax2D" parent="bgs"]
+scroll_scale = Vector2(0.15, 0.15)
+repeat_size = Vector2(1280, 1280)
+repeat_times = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="bgs/stars-5"]
+modulate = Color(1, 1, 1, 0.482353)
+texture = ExtResource("5_jt0il")
+
+[node name="stars-6" type="Parallax2D" parent="bgs"]
+scroll_scale = Vector2(0.05, 0.05)
+repeat_size = Vector2(1280, 1280)
+repeat_times = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="bgs/stars-6"]
+modulate = Color(1, 1, 1, 0.486275)
+texture = ExtResource("6_dwvpk")
+
+[node name="jup" type="Sprite2D" parent="bgs"]
+position = Vector2(2755, -1998)
+texture = ExtResource("7_kbtav")
+
+[node name="title" type="Label" parent="."]
+modulate = Color(1, 1, 0, 1)
+z_index = 1
+offset_top = 29.0
+offset_right = 1920.0
+offset_bottom = 229.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("1_6wl5i")
+theme_override_font_sizes/font_size = 72
+text = "Thanks for Playing!"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="eps" type="Label" parent="."]
+modulate = Color(1, 1, 0, 1)
+z_index = 1
+offset_left = 137.0
+offset_top = 247.0
+offset_right = 1837.0
+offset_bottom = 447.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("1_6wl5i")
+theme_override_font_sizes/font_size = 50
+text = "Escape Pods saved: 0/3"
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="merc treasure" type="Label" parent="."]
+modulate = Color(1, 1, 0, 1)
+z_index = 1
+offset_left = 137.0
+offset_top = 377.0
+offset_right = 1837.0
+offset_bottom = 577.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("1_6wl5i")
+theme_override_font_sizes/font_size = 50
+text = "Mercury's treasure collected: No"
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="planet-x found" type="Label" parent="."]
+modulate = Color(1, 1, 0, 1)
+z_index = 1
+offset_left = 137.0
+offset_top = 516.0
+offset_right = 1837.0
+offset_bottom = 716.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("1_6wl5i")
+theme_override_font_sizes/font_size = 50
+text = "Planet X found: No"
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="pluto visit" type="Label" parent="."]
+modulate = Color(1, 1, 0, 1)
+z_index = 1
+offset_left = 137.0
+offset_top = 651.0
+offset_right = 1837.0
+offset_bottom = 851.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("1_6wl5i")
+theme_override_font_sizes/font_size = 50
+text = "Pluto visited: No"
+vertical_alignment = 1
+autowrap_mode = 2
