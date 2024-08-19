@@ -63,7 +63,6 @@ public partial class EscapePod : CharacterBody2D
 
     private void OnGravityAreaEntered(Area2D area)
     {
-        // if (area.GetParent().Name == "planet-mars") SuccessfulLanding();
         if (area.GetParent().Name == "planet-earth") return;
         if (area.GetParent() is Planet) planetNear = (Planet)area.GetParent();
         if (area.GetParent() is Comet) cometNear = (Comet)area.GetParent();
@@ -73,11 +72,6 @@ public partial class EscapePod : CharacterBody2D
     {
         planetNear = null;
         cometNear = null;
-    }
-
-    private void SuccessfulLanding()
-    {
-        QueueFree();
     }
 
     private void OnSunEntered(object _)

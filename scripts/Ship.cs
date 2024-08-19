@@ -24,6 +24,7 @@ public partial class Ship : CharacterBody2D
     WarpShip warpShip;
     public bool boosting = false;
     public int podCounter = 1;
+    public int podsArrived = 0;
     bool nearWarpShip = false;
 
     public Planet planetNear = null;
@@ -229,6 +230,10 @@ public partial class Ship : CharacterBody2D
             if (planetNear.Name == "planet-earth" && podCounter <= 3)
             {
                 infoLabel.Text = $"Left-click to launch Escape Pod #{podCounter}!";
+            }
+            if (planetNear.Name == "planet-mars")
+            {
+                infoLabel.Text = $"{podsArrived}/3 pod(s) have arrived. Left-click to launch Warp Ship!";
             }
         }
         else if (nearWarpShip)

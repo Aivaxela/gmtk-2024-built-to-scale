@@ -102,12 +102,13 @@ public partial class Planet : Node2D
             escapePod.QueueFree();
             if (Name == "planet-mars")
             {
+                ship.podsArrived++;
                 GD.Print("got to mars!");
                 return;
             }
             else
             {
-                GD.Print("the humans perished :(");
+                GD.Print("the pod perished :(");
                 return;
             }
         }

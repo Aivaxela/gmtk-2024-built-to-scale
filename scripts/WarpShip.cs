@@ -9,7 +9,7 @@ public partial class WarpShip : CharacterBody2D
 
     public override void _Ready()
     {
-        velocity = new Vector2(20, 0);
+        velocity = new Vector2(0, 0);
     }
 
     public override void _PhysicsProcess(double delta)

@@ -163,7 +163,7 @@ position = Vector2(20, -110)
 position = Vector2(962, -100)
 
 [node name="planet-mars2" parent="planets" instance=ExtResource("11_ox6sk")]
-position = Vector2(2006, -913)
+position = Vector2(2006, -895)
 scale = Vector2(1.7, 1.7)
 
 [node name="comets" type="Node" parent="."]
@@ -202,6 +202,6 @@ fuel = NodePath("../camera/fuel-level")
 position = Vector2(-1324, 0)
 
 [node name="warp-ship" parent="." instance=ExtResource("21_piltd")]
-position = Vector2(290, 201)
+position = Vector2(1143, -99)
 
 [editable path="warp-ship"]
