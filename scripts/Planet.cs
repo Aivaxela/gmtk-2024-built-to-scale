@@ -39,7 +39,7 @@ public partial class Planet : Node2D
         if (Input.IsActionPressed("scale-down") && planetScale > 0.5 && isSelected) planetScale -= 0.05f;
         if (Input.IsActionJustPressed("interact") && Name == "planet-earth")
         {
-            if (ship.planetNear != null) LaunchPodFromEarth();
+            if (ship.planetNear != null && ship.podReady) LaunchPodFromEarth();
         }
 
         sprite.Scale = new Vector2(planetScale, planetScale);
@@ -56,18 +56,24 @@ public partial class Planet : Node2D
                 ep1.Visible = true;
                 ep1.velocity = new Vector2(30, 0);
                 ship.podCounter++;
+                ship.podReady = false;
+                ship.podBoardingTimer.Start();
                 return;
             case 2:
                 ep2.launched = true;
                 ep2.Visible = true;
                 ep2.velocity = new Vector2(30, 10);
                 ship.podCounter++;
+                ship.podReady = false;
+                ship.podBoardingTimer.Start();
                 return;
             case 3:
                 ep3.launched = true;
                 ep3.Visible = true;
                 ep3.velocity = new Vector2(25, -13);
                 ship.podCounter++;
+                ship.podReady = false;
+                ship.podBoardingTimer.Start();
                 return;
             default:
                 break;

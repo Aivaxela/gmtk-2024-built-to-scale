@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://cmb3v75n0j57t"]
+[gd_scene load_steps=25 format=3 uid="uid://cmb3v75n0j57t"]
 
 [ext_resource type="Script" path="res://scripts/Main.cs" id="1_1lnp4"]
 [ext_resource type="Script" path="res://scripts/Camera.cs" id="1_d2gsj"]
@@ -8,7 +8,9 @@
 [ext_resource type="PackedScene" uid="uid://dbxyqlcc7cohr" path="res://scene/planet-x.tscn" id="5_fjy7s"]
 [ext_resource type="FontFile" uid="uid://c1fipai1g5lc1" path="res://good_timing/good timing bd.otf" id="5_t61t0"]
 [ext_resource type="Texture2D" uid="uid://c1oqv7i2hhhj6" path="res://sprites/parallax-1.png" id="5_xrwp7"]
+[ext_resource type="Texture2D" uid="uid://ddja0dl5fqjea" path="res://sprites/pod-boarding-outline.png" id="6_jw3iu"]
 [ext_resource type="Texture2D" uid="uid://10elfx8cpdun" path="res://sprites/parallax-2.png" id="6_qtlgi"]
+[ext_resource type="Texture2D" uid="uid://yn23sawboxyp" path="res://sprites/pod-boarding-fill.png" id="7_0u0ev"]
 [ext_resource type="Texture2D" uid="uid://b6gl8kdvmpf2e" path="res://sprites/parallax-3.png" id="7_by3pu"]
 [ext_resource type="Texture2D" uid="uid://cm47di47i1hwj" path="res://sprites/parallax-5.png" id="8_pbo15"]
 [ext_resource type="PackedScene" uid="uid://djf880mbi2nqj" path="res://scene/planet-merc.tscn" id="9_06ets"]
@@ -16,10 +18,10 @@
 [ext_resource type="PackedScene" uid="uid://qes2ltlb2fmx" path="res://scene/planet-venus.tscn" id="11_1fbjj"]
 [ext_resource type="PackedScene" uid="uid://biakw32ljn108" path="res://scene/planet-mars.tscn" id="11_ox6sk"]
 [ext_resource type="PackedScene" uid="uid://bla8m4yayvh8r" path="res://scene/planet-earth.tscn" id="12_dp6bp"]
-[ext_resource type="PackedScene" uid="uid://bnshyqijxnewi" path="res://scene/comet.tscn" id="14_yu1dr"]
 [ext_resource type="PackedScene" uid="uid://dtnnci13fmaw8" path="res://scene/sun.tscn" id="15_mx2ub"]
 [ext_resource type="Script" path="res://scripts/Boundaries.cs" id="16_n2dui"]
 [ext_resource type="PackedScene" uid="uid://cka6n3jouxk2k" path="res://scene/escape-pod.tscn" id="17_ad66t"]
+[ext_resource type="PackedScene" uid="uid://cpl3pj1ya7ads" path="res://scene/planet-io.tscn" id="17_s4iqw"]
 [ext_resource type="PackedScene" uid="uid://dj802kd1o7qjs" path="res://scene/warp-ship.tscn" id="21_piltd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xvr32"]
@@ -27,6 +29,10 @@ size = Vector2(217, 20)
 
 [node name="main" type="Node"]
 script = ExtResource("1_1lnp4")
+
+[node name="pod-boarding-timer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
 
 [node name="camera" type="Camera2D" parent="." node_paths=PackedStringArray("ship", "boostingLabel")]
 script = ExtResource("1_d2gsj")
@@ -41,6 +47,7 @@ offset_bottom = -592.0
 text = "BOOSTING"
 
 [node name="fuel-level" type="TextureProgressBar" parent="camera"]
+z_index = 1
 offset_left = -126.0
 offset_top = 438.0
 offset_right = 157.0
@@ -50,7 +57,6 @@ max_value = 1000.0
 value = 300.0
 texture_under = ExtResource("3_8j6ht")
 texture_progress = ExtResource("4_j05yb")
-texture_progress_offset = Vector2(1, 1)
 
 [node name="title" type="Label" parent="camera/fuel-level"]
 layout_mode = 0
@@ -58,6 +64,8 @@ offset_left = 22.0
 offset_top = -57.0
 offset_right = 277.0
 offset_bottom = -1.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("5_t61t0")
 theme_override_font_sizes/font_size = 46
 text = "FUEL"
@@ -70,18 +78,49 @@ offset_top = 6.0
 offset_right = 171.0
 offset_bottom = 31.0
 pivot_offset = Vector2(25, 0)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("5_t61t0")
 theme_override_font_sizes/font_size = 20
 text = "1000"
 horizontal_alignment = 1
 
+[node name="pod-boarding-progress" type="TextureProgressBar" parent="camera"]
+z_index = 1
+offset_left = -31.0
+offset_top = 523.0
+offset_right = 66.0
+offset_bottom = 620.0
+max_value = 10.0
+value = 4.0
+fill_mode = 4
+texture_under = ExtResource("6_jw3iu")
+texture_progress = ExtResource("7_0u0ev")
+
+[node name="title" type="Label" parent="camera/pod-boarding-progress"]
+layout_mode = 0
+offset_left = -102.0
+offset_top = -37.0
+offset_right = 199.0
+offset_bottom = -6.0
+pivot_offset = Vector2(150, 0)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("5_t61t0")
+theme_override_font_sizes/font_size = 25
+text = "Escape Pod Boarding..."
+horizontal_alignment = 1
+
 [node name="info-label" type="Label" parent="camera"]
 modulate = Color(1, 1, 0, 1)
+z_index = 1
 offset_left = -235.0
 offset_top = -513.0
 offset_right = 265.0
 offset_bottom = -313.0
 pivot_offset = Vector2(250, 0)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("5_t61t0")
 theme_override_font_sizes/font_size = 36
 text = "Info Label Info Label Info Label Info Label Info Label Info Label "
@@ -162,14 +201,9 @@ position = Vector2(20, -110)
 [node name="planet-mars" parent="planets" instance=ExtResource("11_ox6sk")]
 position = Vector2(962, -100)
 
-[node name="planet-mars2" parent="planets" instance=ExtResource("11_ox6sk")]
+[node name="planet-io" parent="planets" instance=ExtResource("17_s4iqw")]
 position = Vector2(2006, -895)
 scale = Vector2(1.7, 1.7)
-
-[node name="comets" type="Node" parent="."]
-
-[node name="comet" parent="comets" instance=ExtResource("14_yu1dr")]
-position = Vector2(3578, -1290)
 
 [node name="escape-pods" type="Node" parent="."]
 
@@ -192,11 +226,13 @@ velocity = Vector2(25, -13)
 velocity = Vector2(25, -13)
 speed = 250.0
 
-[node name="ship" parent="." node_paths=PackedStringArray("fuelLevelReadout", "infoLabel", "dockPoint", "fuel") instance=ExtResource("4_2cdsw")]
+[node name="ship" parent="." node_paths=PackedStringArray("fuelLevelReadout", "infoLabel", "dockPoint", "boardingBar", "fuel", "podBoardingTimer") instance=ExtResource("4_2cdsw")]
 fuelLevelReadout = NodePath("../camera/fuel-level/readout")
 infoLabel = NodePath("../camera/info-label")
 dockPoint = NodePath("../warp-ship/dock-point")
+boardingBar = NodePath("../camera/pod-boarding-progress")
 fuel = NodePath("../camera/fuel-level")
+podBoardingTimer = NodePath("../pod-boarding-timer")
 
 [node name="sun" parent="." instance=ExtResource("15_mx2ub")]
 position = Vector2(-1324, 0)

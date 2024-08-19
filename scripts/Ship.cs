@@ -14,7 +14,9 @@ public partial class Ship : CharacterBody2D
     [Export] Label fuelLevelReadout;
     [Export] Label infoLabel;
     [Export] Marker2D dockPoint;
+    [Export] TextureProgressBar boardingBar;
     [Export] public TextureProgressBar fuel;
+    [Export] public Timer podBoardingTimer;
 
     float speed = 200;
     float boostCoefficient = 0.01f;
@@ -23,6 +25,7 @@ public partial class Ship : CharacterBody2D
     Sun sun;
     WarpShip warpShip;
     public bool boosting = false;
+    public bool podReady = true;
     public int podCounter = 1;
     public int podsArrived = 0;
     bool nearWarpShip = false;
@@ -30,6 +33,7 @@ public partial class Ship : CharacterBody2D
     public Planet planetNear = null;
     Comet cometNear = null;
     GpuParticles2D warpShipBeam;
+    Label boardingTitle;
 
 
     public override void _Ready()
@@ -39,12 +43,14 @@ public partial class Ship : CharacterBody2D
         sun = GetNode<Sun>("/root/main/sun");
         warpShip = GetNode<WarpShip>("/root/main/warp-ship");
         warpShipBeam = warpShip.GetNode<GpuParticles2D>("beam-particles");
+        boardingTitle = boardingBar.GetNode<Label>("title");
 
         gravityCheckArea.AreaEntered += OnGravityAreaEntered;
         gravityCheckArea.AreaExited += OnGravityAreaExited;
         boundCheckArea.AreaEntered += OnBoundaryEntered;
         warpShipCaptureArea.AreaEntered += OnWarpShipAreaEntered;
         warpShipCaptureArea.AreaExited += OnWarpShipAreaExited;
+        podBoardingTimer.Timeout += OnBoardingTimerTimeout;
     }
 
     public override void _PhysicsProcess(double delta)
@@ -83,6 +89,7 @@ public partial class Ship : CharacterBody2D
         DockWarpShip();
         dirPointer.Visible = currentShipState == State.DOCKED ? false : true;
         warpShipBeam.Emitting = currentShipState == State.DOCKED ? false : true;
+        boardingBar.Value = podBoardingTimer.TimeLeft;
     }
 
 
@@ -192,6 +199,11 @@ public partial class Ship : CharacterBody2D
         PrepReset();
     }
 
+    private void OnBoardingTimerTimeout()
+    {
+        podReady = true;
+    }
+
     public void PrepReset()
     {
         CallDeferred("Reset");
@@ -228,21 +240,18 @@ public partial class Ship : CharacterBody2D
         if (planetNear != null)
         {
             if (planetNear.Name == "planet-earth" && podCounter <= 3)
-            {
                 infoLabel.Text = $"Left-click to launch Escape Pod #{podCounter}!";
-            }
+
             if (planetNear.Name == "planet-mars")
-            {
                 infoLabel.Text = $"{podsArrived}/3 pod(s) have arrived. Left-click to launch Warp Ship!";
-            }
         }
         else if (nearWarpShip)
-        {
             infoLabel.Text = "Left-click to dock!";
-        }
+
         else if (currentShipState == State.DOCKED)
-        {
             infoLabel.Text = "Left-click to depart.";
-        }
+
+        boardingTitle.Text = podBoardingTimer.IsStopped()
+         ? "Escape Pod Ready!" : "Escape Pod Boarding...";
     }
 }

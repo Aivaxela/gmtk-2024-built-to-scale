@@ -1,0 +1,150 @@
+[gd_scene load_steps=18 format=3 uid="uid://cpl3pj1ya7ads"]
+
+[ext_resource type="Script" path="res://scripts/Planet.cs" id="1_72gvc"]
+[ext_resource type="Texture2D" uid="uid://tuoetl6d2q3r" path="res://sprites/planet-gravity-ring.png" id="2_p7qns"]
+[ext_resource type="Texture2D" uid="uid://c6iw5ta26xsqo" path="res://sprites/planet-outline.png" id="3_ahfri"]
+[ext_resource type="Texture2D" uid="uid://ds73e6qplvc1x" path="res://sprites/planet-select.png" id="4_xx6va"]
+[ext_resource type="Texture2D" uid="uid://dpscbs5cvemfp" path="res://sprites/planet-io-inner.png" id="5_frc8c"]
+[ext_resource type="Texture2D" uid="uid://b2m3wdxh65qta" path="res://sprites/planet-mars-clouds.png" id="6_kg0yk"]
+[ext_resource type="Texture2D" uid="uid://bwkefdhygjh6t" path="res://sprites/planet-shade.png" id="7_cp3ti"]
+[ext_resource type="PackedScene" uid="uid://bdkgj5gmledl" path="res://scene/planet-debris.tscn" id="8_4tpaa"]
+
+[sub_resource type="Animation" id="Animation_cy8g6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_voo3e"]
+resource_name = "burn up"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0333333, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xmqn4"]
+_data = {
+"RESET": SubResource("Animation_cy8g6"),
+"burn up": SubResource("Animation_voo3e")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_q0ygi"]
+radius = 500.0
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_t6nfn"]
+particles_animation = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id="Gradient_5rwk8"]
+offsets = PackedFloat32Array(0, 0.855072, 1)
+colors = PackedColorArray(0.427451, 1, 0, 0.509804, 0, 1, 0.0117647, 0.52549, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ghwtm"]
+gradient = SubResource("Gradient_5rwk8")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_q1elm"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 200, 1)
+spread = 25.045
+initial_velocity_min = 3.0
+initial_velocity_max = 3.0
+orbit_velocity_min = 0.0150001
+orbit_velocity_max = 0.0200001
+gravity = Vector3(1, 0, 0)
+color = Color(1, 1, 1, 0.756863)
+color_ramp = SubResource("GradientTexture1D_ghwtm")
+anim_offset_max = 1.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vn3l6"]
+radius = 40.4475
+
+[node name="planet-io" type="Node2D" node_paths=PackedStringArray("gravityArea", "shipCheckArea", "sprite", "selectionSprite", "animPlayer", "destroyTimer", "planetDebris")]
+position = Vector2(179, -24)
+script = ExtResource("1_72gvc")
+gravityArea = NodePath("gravity-area")
+shipCheckArea = NodePath("Sprite2D/ship-check")
+sprite = NodePath("Sprite2D")
+selectionSprite = NodePath("Sprite2D/selectr")
+animPlayer = NodePath("AnimationPlayer")
+destroyTimer = NodePath("Timer")
+planetDebris = NodePath("planet-debris")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 6.0
+one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_xmqn4")
+}
+
+[node name="gravity-area" type="Area2D" parent="."]
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="gravity-area"]
+shape = SubResource("CircleShape2D_q0ygi")
+debug_color = Color(0, 0.6, 0.701961, 0.168627)
+
+[node name="grav-ring" type="Sprite2D" parent="gravity-area/CollisionShape2D"]
+texture = ExtResource("2_p7qns")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-1, 0)
+texture = ExtResource("3_ahfri")
+
+[node name="selectr" type="Sprite2D" parent="Sprite2D"]
+visible = false
+z_index = -1
+texture = ExtResource("4_xx6va")
+
+[node name="inner" type="Sprite2D" parent="Sprite2D"]
+show_behind_parent = true
+clip_children = 2
+position = Vector2(1, 0)
+texture = ExtResource("5_frc8c")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Sprite2D/inner"]
+material = SubResource("CanvasItemMaterial_t6nfn")
+position = Vector2(-113, 20)
+amount = 150
+process_material = SubResource("ParticleProcessMaterial_q1elm")
+texture = ExtResource("6_kg0yk")
+lifetime = 20.0
+preprocess = 30.0
+
+[node name="shade" type="Sprite2D" parent="Sprite2D/inner"]
+texture = ExtResource("7_cp3ti")
+
+[node name="ship-check" type="Area2D" parent="Sprite2D"]
+visible = false
+position = Vector2(1, 0)
+collision_layer = 0
+collision_mask = 18
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/ship-check"]
+shape = SubResource("CircleShape2D_vn3l6")
+debug_color = Color(0.956863, 0, 0.545098, 0.243137)
+
+[node name="planet-debris" parent="." instance=ExtResource("8_4tpaa")]
+one_shot = true
