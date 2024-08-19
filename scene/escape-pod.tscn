@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cka6n3jouxk2k"]
+[gd_scene load_steps=11 format=3 uid="uid://cka6n3jouxk2k"]
 
 [ext_resource type="Texture2D" uid="uid://dcgd6uwaxjihd" path="res://sprites/escape-pod.png" id="1_rcx8i"]
 [ext_resource type="Script" path="res://scripts/EscapePod.cs" id="1_xcwop"]
@@ -27,6 +27,8 @@ size = Vector2(3, 3)
 radius = 26.0192
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_55t51"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_276fj"]
 
 [node name="escape-pod" type="CharacterBody2D" node_paths=PackedStringArray("bodyPointer", "sprite", "gravityCheckArea", "sunCheckArea")]
 collision_layer = 0
@@ -68,12 +70,6 @@ collision_layer = 0
 shape = SubResource("CircleShape2D_155ch")
 debug_color = Color(0, 0.6, 0.701961, 0.117647)
 
-[node name="mars-check-area" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 64
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="mars-check-area"]
-
 [node name="sun-check" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 32
@@ -81,3 +77,11 @@ collision_mask = 32
 [node name="CollisionShape2D" type="CollisionShape2D" parent="sun-check"]
 position = Vector2(7, 5)
 shape = SubResource("CircleShape2D_55t51")
+
+[node name="mars-check-area" type="Area2D" parent="."]
+collision_layer = 64
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="mars-check-area"]
+position = Vector2(7, 5)
+shape = SubResource("CircleShape2D_276fj")

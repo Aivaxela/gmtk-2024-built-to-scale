@@ -44,14 +44,11 @@ public partial class Planet : Node2D
 
         sprite.Scale = new Vector2(planetScale, planetScale);
         gravityArea.Scale = new Vector2(planetScale / 4f, planetScale / 4f);
-
-        GD.Print(ship.podCounter);
     }
 
 
     private void LaunchPodFromEarth()
     {
-        GD.Print("launch");
         switch (ship.podCounter)
         {
             case 1:
@@ -98,6 +95,21 @@ public partial class Planet : Node2D
             destroyTimer.Start();
             shipCheckArea.QueueFree();
             return;
+        }
+        if (area.GetParent() is EscapePod)
+        {
+            EscapePod escapePod = (EscapePod)area.GetParent();
+            escapePod.QueueFree();
+            if (Name == "planet-mars")
+            {
+                GD.Print("got to mars!");
+                return;
+            }
+            else
+            {
+                GD.Print("the humans perished :(");
+                return;
+            }
         }
         ship?.PrepReset();
     }
