@@ -3,7 +3,7 @@ using Godot;
 public partial class WarpShip : CharacterBody2D
 {
     [Export] float speed = 20;
-    Vector2 velocity;
+    public Vector2 velocity;
     Vector2 direction;
 
 

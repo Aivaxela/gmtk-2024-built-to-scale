@@ -91,6 +91,7 @@ offset = Vector2(-81.2, -42)
 [node name="ship-capture-area" type="Area2D" parent="."]
 collision_layer = 128
 collision_mask = 0
+monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ship-capture-area"]
 visible = false

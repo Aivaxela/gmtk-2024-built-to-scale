@@ -21,6 +21,8 @@ public partial class Planet : Node2D
 
     public override void _Ready()
     {
+        planetScale = sprite.Scale.X;
+
         ship = GetNode<Ship>("/root/main/ship");
         ep1 = GetNode<EscapePod>("/root/main/escape-pods/escape-pod1");
         ep2 = GetNode<EscapePod>("/root/main/escape-pods/escape-pod2");
@@ -39,7 +41,11 @@ public partial class Planet : Node2D
         if (Input.IsActionPressed("scale-down") && planetScale > 0.5 && isSelected) planetScale -= 0.05f;
         if (Input.IsActionJustPressed("interact") && Name == "planet-earth")
         {
-            if (ship.planetNear != null && ship.podReady) LaunchPodFromEarth();
+            if (ship.planetNear.Name == "planet-earth" && ship.podReady) LaunchPodFromEarth();
+        }
+        if (Input.IsActionJustPressed("interact") && Name == "planet-mars")
+        {
+            if (ship.planetNear.Name == "planet-mars" && ship.warpShipReady) LaunchWSFromMars();
         }
 
         sprite.Scale = new Vector2(planetScale, planetScale);
@@ -80,6 +86,12 @@ public partial class Planet : Node2D
         }
     }
 
+    private void LaunchWSFromMars()
+    {
+        ship.LaunchWarpShip();
+        ship.warpShipReady = false;
+    }
+
     private void OnMouseEntered()
     {
         if (!destroyTimer.IsStopped()) return;
@@ -109,12 +121,6 @@ public partial class Planet : Node2D
             if (Name == "planet-mars")
             {
                 ship.podsArrived++;
-                GD.Print("got to mars!");
-                return;
-            }
-            else
-            {
-                GD.Print("the pod perished :(");
                 return;
             }
         }

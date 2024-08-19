@@ -26,6 +26,7 @@ public partial class Ship : CharacterBody2D
     WarpShip warpShip;
     public bool boosting = false;
     public bool podReady = true;
+    public bool warpShipReady = true;
     public int podCounter = 1;
     public int podsArrived = 0;
     bool nearWarpShip = false;
@@ -172,6 +173,13 @@ public partial class Ship : CharacterBody2D
         }
     }
 
+    public void LaunchWarpShip()
+    {
+        warpShip.velocity = new Vector2(25, 0);
+        Area2D warpShipCaptureArea = warpShip.GetNode<Area2D>("ship-capture-area");
+        warpShipCaptureArea.Monitorable = true;
+    }
+
     private void OnGravityAreaEntered(Area2D area)
     {
         if (area.GetParent() is Planet) planetNear = (Planet)area.GetParent();
@@ -242,7 +250,7 @@ public partial class Ship : CharacterBody2D
             if (planetNear.Name == "planet-earth" && podCounter <= 3)
                 infoLabel.Text = $"Left-click to launch Escape Pod #{podCounter}!";
 
-            if (planetNear.Name == "planet-mars")
+            if (planetNear.Name == "planet-mars" && warpShipReady)
                 infoLabel.Text = $"{podsArrived}/3 pod(s) have arrived. Left-click to launch Warp Ship!";
         }
         else if (nearWarpShip)

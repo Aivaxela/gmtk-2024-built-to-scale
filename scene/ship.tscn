@@ -25,7 +25,7 @@ color_ramp = SubResource("GradientTexture1D_4wjmy")
 size = Vector2(8.75, 5.5)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_x6045"]
-radius = 26.0192
+radius = 13.0384
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y0bx4"]
 size = Vector2(29, 14)
