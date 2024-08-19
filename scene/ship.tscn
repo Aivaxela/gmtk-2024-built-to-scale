@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cxvys3gvoltbj"]
+[gd_scene load_steps=12 format=3 uid="uid://cxvys3gvoltbj"]
 
 [ext_resource type="Script" path="res://scripts/Ship.cs" id="1_nse1n"]
 [ext_resource type="Texture2D" uid="uid://bj5kib510ym01" path="res://sprites/pointer.png" id="2_xbnpj"]
@@ -33,12 +33,16 @@ size = Vector2(29, 14)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m4xjb"]
 size = Vector2(29, 14)
 
-[node name="ship" type="CharacterBody2D" node_paths=PackedStringArray("gravityCheckArea", "boundCheckArea", "dirPointer", "bodyPointer", "boostParticles")]
+[sub_resource type="CircleShape2D" id="CircleShape2D_8g411"]
+radius = 26.0192
+
+[node name="ship" type="CharacterBody2D" node_paths=PackedStringArray("gravityCheckArea", "boundCheckArea", "warpShipCaptureArea", "dirPointer", "bodyPointer", "boostParticles")]
 collision_layer = 2
 collision_mask = 2
 script = ExtResource("1_nse1n")
 gravityCheckArea = NodePath("gravity-area")
 boundCheckArea = NodePath("boundary-check-area")
+warpShipCaptureArea = NodePath("warp-ship-capture")
 dirPointer = NodePath("pointer")
 bodyPointer = NodePath("pPointer")
 boostParticles = NodePath("boost-particles")
@@ -97,3 +101,11 @@ collision_mask = 4
 position = Vector2(17.5, 10)
 shape = SubResource("RectangleShape2D_m4xjb")
 debug_color = Color(0.701677, 0.488047, 0.0843467, 0.188235)
+
+[node name="warp-ship-capture" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 128
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="warp-ship-capture"]
+position = Vector2(15, 9)
+shape = SubResource("CircleShape2D_8g411")

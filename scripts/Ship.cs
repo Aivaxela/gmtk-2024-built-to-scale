@@ -2,13 +2,18 @@ using Godot;
 
 public partial class Ship : CharacterBody2D
 {
+    public enum State { PILOTING, DOCKED }
+    public State currentShipState;
+
     [Export] Area2D gravityCheckArea;
     [Export] Area2D boundCheckArea;
+    [Export] Area2D warpShipCaptureArea;
     [Export] Sprite2D dirPointer;
     [Export] Sprite2D bodyPointer;
     [Export] GpuParticles2D boostParticles;
     [Export] Label fuelLevelReadout;
     [Export] Label infoLabel;
+    [Export] Marker2D dockPoint;
     [Export] public TextureProgressBar fuel;
 
     float speed = 200;
@@ -18,6 +23,7 @@ public partial class Ship : CharacterBody2D
     Sun sun;
     public bool boosting = false;
     public int podCounter = 1;
+    bool nearWarpShip = false;
 
     public Planet planetNear = null;
     Comet cometNear = null;
@@ -25,29 +31,50 @@ public partial class Ship : CharacterBody2D
 
     public override void _Ready()
     {
+        currentShipState = State.PILOTING;
+
         sun = GetNode<Sun>("/root/main/sun");
 
         gravityCheckArea.AreaEntered += OnGravityAreaEntered;
         gravityCheckArea.AreaExited += OnGravityAreaExited;
         boundCheckArea.AreaEntered += OnBoundaryEntered;
-
+        warpShipCaptureArea.AreaEntered += OnWarpShipAreaEntered;
     }
 
     public override void _PhysicsProcess(double delta)
     {
+        switch (currentShipState)
+        {
+            case State.PILOTING:
+                _Process_Piloting(delta);
+                break;
+            case State.DOCKED:
+                _Process_Docked(delta);
+                break;
+        }
+    }
+
+    public void _Process_Piloting(double delta)
+    {
         UpdateDirection();
         CalculateVelocity();
         UpdateHelpers();
-
-        if (Input.IsActionJustPressed("reset")) PrepReset();
-
         CheckForBoosting();
+    }
+
+    public void _Process_Docked(double delta)
+    {
+        GlobalPosition = dockPoint.GlobalPosition;
+        Rotation = 0;
     }
 
     public override void _Process(double delta)
     {
+        if (Input.IsActionJustPressed("reset")) PrepReset();
         fuelLevelReadout.Text = fuel.Value.ToString();
         UpdateInfoLabel();
+        DockWarpShip();
+        dirPointer.Visible = currentShipState == State.DOCKED ? false : true;
     }
 
 
@@ -113,6 +140,14 @@ public partial class Ship : CharacterBody2D
         if (boosting) fuel.Value -= 2;
     }
 
+    private void DockWarpShip()
+    {
+        if (Input.IsActionJustPressed("interact") && nearWarpShip)
+        {
+            currentShipState = State.DOCKED;
+        }
+    }
+
     private void OnGravityAreaEntered(Area2D area)
     {
         if (area.GetParent() is Planet) planetNear = (Planet)area.GetParent();
@@ -123,6 +158,11 @@ public partial class Ship : CharacterBody2D
     {
         planetNear = null;
         cometNear = null;
+    }
+
+    private void OnWarpShipAreaEntered(object _)
+    {
+        nearWarpShip = true;
     }
 
     private void OnBoundaryEntered(object _)
@@ -163,14 +203,16 @@ public partial class Ship : CharacterBody2D
     {
         infoLabel.Text = "";
 
-        if (planetNear == null) return;
-        if (planetNear.Name == "planet-earth" && podCounter <= 3)
+        if (planetNear != null)
         {
-            infoLabel.Text = $"Left-click to launch Escape Pod #{podCounter}!";
+            if (planetNear.Name == "planet-earth" && podCounter <= 3)
+            {
+                infoLabel.Text = $"Left-click to launch Escape Pod #{podCounter}!";
+            }
         }
-        else
+        else if (nearWarpShip)
         {
-            infoLabel.Text = "";
+            infoLabel.Text = "Left-click to dock!";
         }
     }
 }

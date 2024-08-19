@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://cmb3v75n0j57t"]
+[gd_scene load_steps=35 format=3 uid="uid://cmb3v75n0j57t"]
 
 [ext_resource type="Script" path="res://scripts/Main.cs" id="1_1lnp4"]
 [ext_resource type="Script" path="res://scripts/Camera.cs" id="1_d2gsj"]
@@ -20,9 +20,56 @@
 [ext_resource type="PackedScene" uid="uid://dtnnci13fmaw8" path="res://scene/sun.tscn" id="15_mx2ub"]
 [ext_resource type="Script" path="res://scripts/Boundaries.cs" id="16_n2dui"]
 [ext_resource type="PackedScene" uid="uid://cka6n3jouxk2k" path="res://scene/escape-pod.tscn" id="17_ad66t"]
+[ext_resource type="Texture2D" uid="uid://bj5kib510ym01" path="res://sprites/pointer.png" id="21_de460"]
+[ext_resource type="Texture2D" uid="uid://p4ij44ie7xo2" path="res://sprites/warp-ship-beam.png" id="22_pv5j6"]
+[ext_resource type="Texture2D" uid="uid://dbnul5768htn1" path="res://sprites/warp-ship.png" id="23_qt03p"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xvr32"]
 size = Vector2(217, 20)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cgnen"]
+
+[sub_resource type="Gradient" id="Gradient_ujmy3"]
+offsets = PackedFloat32Array(0, 0.270531, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.996078, 0.541176, 0, 0.819608, 1, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_xtu0e"]
+gradient = SubResource("Gradient_ujmy3")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ect8g"]
+particle_flag_disable_z = true
+spread = 20.0
+initial_velocity_min = -30.0
+initial_velocity_max = -10.0
+gravity = Vector3(0, 0, 0)
+scale_max = 2.0
+color_ramp = SubResource("GradientTexture1D_xtu0e")
+
+[sub_resource type="Gradient" id="Gradient_23ptd"]
+offsets = PackedFloat32Array(0, 0.608696, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_vkwge"]
+gradient = SubResource("Gradient_23ptd")
+
+[sub_resource type="Curve" id="Curve_5a1lb"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.629787, 0.142857), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_lpyye"]
+curve = SubResource("Curve_5a1lb")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_tdrg4"]
+particle_flag_disable_z = true
+spread = 0.0
+initial_velocity_min = 50.0
+initial_velocity_max = 50.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_lpyye")
+color_ramp = SubResource("GradientTexture1D_vkwge")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wr71a"]
+radius = 64.0078
 
 [node name="main" type="Node"]
 script = ExtResource("1_1lnp4")
@@ -191,10 +238,61 @@ velocity = Vector2(25, -13)
 velocity = Vector2(25, -13)
 speed = 250.0
 
-[node name="ship" parent="." node_paths=PackedStringArray("fuelLevelReadout", "infoLabel", "fuel") instance=ExtResource("4_2cdsw")]
+[node name="ship" parent="." node_paths=PackedStringArray("fuelLevelReadout", "infoLabel", "dockPoint", "fuel") instance=ExtResource("4_2cdsw")]
 fuelLevelReadout = NodePath("../camera/fuel-level/readout")
 infoLabel = NodePath("../camera/info-label")
+dockPoint = NodePath("../warp-ship/dock-point")
 fuel = NodePath("../camera/fuel-level")
 
 [node name="sun" parent="." instance=ExtResource("15_mx2ub")]
 position = Vector2(-1324, 0)
+
+[node name="warp-ship" type="CharacterBody2D" parent="."]
+position = Vector2(1437, -100)
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="warp-ship"]
+shape = SubResource("CircleShape2D_cgnen")
+
+[node name="lights" type="Sprite2D" parent="warp-ship"]
+modulate = Color(0.44879, 1, 0.997055, 1)
+position = Vector2(130, 0)
+texture = ExtResource("21_de460")
+
+[node name="boost-particles" type="GPUParticles2D" parent="warp-ship"]
+position = Vector2(-20, -36)
+amount = 35
+process_material = SubResource("ParticleProcessMaterial_ect8g")
+lifetime = 2.0
+
+[node name="boost-particles2" type="GPUParticles2D" parent="warp-ship"]
+position = Vector2(-20, 36)
+amount = 35
+process_material = SubResource("ParticleProcessMaterial_ect8g")
+lifetime = 2.0
+
+[node name="beam-particles" type="GPUParticles2D" parent="warp-ship"]
+position = Vector2(-186, 0)
+amount = 10
+process_material = SubResource("ParticleProcessMaterial_tdrg4")
+texture = ExtResource("22_pv5j6")
+lifetime = 4.0
+preprocess = 10.0
+
+[node name="Sprite2D" type="Sprite2D" parent="warp-ship"]
+texture = ExtResource("23_qt03p")
+centered = false
+offset = Vector2(-81.2, -42)
+
+[node name="ship-capture-area" type="Area2D" parent="warp-ship"]
+collision_layer = 128
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="warp-ship/ship-capture-area"]
+visible = false
+position = Vector2(-99, 0)
+shape = SubResource("CircleShape2D_wr71a")
+
+[node name="dock-point" type="Marker2D" parent="warp-ship"]
+position = Vector2(-71, -10)
