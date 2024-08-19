@@ -1,7 +1,8 @@
-[gd_scene load_steps=14 format=3 uid="uid://dj802kd1o7qjs"]
+[gd_scene load_steps=15 format=3 uid="uid://dj802kd1o7qjs"]
 
 [ext_resource type="Texture2D" uid="uid://dbnul5768htn1" path="res://sprites/warp-ship.png" id="1_176x1"]
 [ext_resource type="Texture2D" uid="uid://bj5kib510ym01" path="res://sprites/pointer.png" id="1_58068"]
+[ext_resource type="Script" path="res://scripts/WarpShip.cs" id="1_sj8mj"]
 [ext_resource type="Texture2D" uid="uid://p4ij44ie7xo2" path="res://sprites/warp-ship-beam.png" id="2_ojr05"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cgnen"]
@@ -45,12 +46,13 @@ gravity = Vector3(0, 0, 0)
 scale_curve = SubResource("CurveTexture_lpyye")
 color_ramp = SubResource("GradientTexture1D_vkwge")
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_wr71a"]
-radius = 64.0078
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_23f77"]
+size = Vector2(247.5, 129)
 
 [node name="warp-ship" type="CharacterBody2D"]
 collision_layer = 0
 collision_mask = 0
+script = ExtResource("1_sj8mj")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_cgnen")
@@ -79,6 +81,7 @@ process_material = SubResource("ParticleProcessMaterial_tdrg4")
 texture = ExtResource("2_ojr05")
 lifetime = 4.0
 preprocess = 10.0
+local_coords = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_176x1")
@@ -90,9 +93,8 @@ collision_layer = 128
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ship-capture-area"]
-visible = false
-position = Vector2(-99, 0)
-shape = SubResource("CircleShape2D_wr71a")
+position = Vector2(-149, 0)
+shape = SubResource("RectangleShape2D_23f77")
 
 [node name="dock-point" type="Marker2D" parent="."]
-position = Vector2(-86, -21)
+position = Vector2(-70, -10)

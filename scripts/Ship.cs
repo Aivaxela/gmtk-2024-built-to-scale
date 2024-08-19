@@ -21,12 +21,14 @@ public partial class Ship : CharacterBody2D
     Vector2 velocity = new Vector2(100, 0);
     Vector2 direction;
     Sun sun;
+    WarpShip warpShip;
     public bool boosting = false;
     public int podCounter = 1;
     bool nearWarpShip = false;
 
     public Planet planetNear = null;
     Comet cometNear = null;
+    GpuParticles2D warpShipBeam;
 
 
     public override void _Ready()
@@ -34,11 +36,14 @@ public partial class Ship : CharacterBody2D
         currentShipState = State.PILOTING;
 
         sun = GetNode<Sun>("/root/main/sun");
+        warpShip = GetNode<WarpShip>("/root/main/warp-ship");
+        warpShipBeam = warpShip.GetNode<GpuParticles2D>("beam-particles");
 
         gravityCheckArea.AreaEntered += OnGravityAreaEntered;
         gravityCheckArea.AreaExited += OnGravityAreaExited;
         boundCheckArea.AreaEntered += OnBoundaryEntered;
         warpShipCaptureArea.AreaEntered += OnWarpShipAreaEntered;
+        warpShipCaptureArea.AreaExited += OnWarpShipAreaExited;
     }
 
     public override void _PhysicsProcess(double delta)
@@ -66,6 +71,7 @@ public partial class Ship : CharacterBody2D
     {
         GlobalPosition = dockPoint.GlobalPosition;
         Rotation = 0;
+        boostParticles.Emitting = false;
     }
 
     public override void _Process(double delta)
@@ -75,6 +81,7 @@ public partial class Ship : CharacterBody2D
         UpdateInfoLabel();
         DockWarpShip();
         dirPointer.Visible = currentShipState == State.DOCKED ? false : true;
+        warpShipBeam.Emitting = currentShipState == State.DOCKED ? false : true;
     }
 
 
@@ -142,9 +149,18 @@ public partial class Ship : CharacterBody2D
 
     private void DockWarpShip()
     {
-        if (Input.IsActionJustPressed("interact") && nearWarpShip)
+        if (Input.IsActionJustPressed("interact"))
         {
-            currentShipState = State.DOCKED;
+            if (nearWarpShip)
+            {
+                currentShipState = State.DOCKED;
+                nearWarpShip = false;
+            }
+            else if (currentShipState == State.DOCKED)
+            {
+                currentShipState = State.PILOTING;
+                return;
+            }
         }
     }
 
@@ -163,6 +179,11 @@ public partial class Ship : CharacterBody2D
     private void OnWarpShipAreaEntered(object _)
     {
         nearWarpShip = true;
+    }
+
+    private void OnWarpShipAreaExited(object _)
+    {
+        nearWarpShip = false;
     }
 
     private void OnBoundaryEntered(object _)
@@ -213,6 +234,10 @@ public partial class Ship : CharacterBody2D
         else if (nearWarpShip)
         {
             infoLabel.Text = "Left-click to dock!";
+        }
+        else if (currentShipState == State.DOCKED)
+        {
+            infoLabel.Text = "Left-click to depart.";
         }
     }
 }

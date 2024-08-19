@@ -48,7 +48,7 @@ bodyPointer = NodePath("pPointer")
 boostParticles = NodePath("boost-particles")
 
 [node name="pointer" type="Sprite2D" parent="."]
-position = Vector2(35, -17)
+position = Vector2(35, -12)
 texture = ExtResource("2_xbnpj")
 centered = false
 
