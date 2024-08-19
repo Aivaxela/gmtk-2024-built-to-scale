@@ -102,6 +102,7 @@ texture = ExtResource("2_iqfy2")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-1, 0)
+scale = Vector2(1.2, 1.2)
 texture = ExtResource("3_npbl4")
 
 [node name="selectr" type="Sprite2D" parent="Sprite2D"]

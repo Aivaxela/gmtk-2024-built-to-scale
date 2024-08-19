@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dj802kd1o7qjs"]
+[gd_scene load_steps=16 format=3 uid="uid://dj802kd1o7qjs"]
 
 [ext_resource type="Texture2D" uid="uid://dbnul5768htn1" path="res://sprites/warp-ship.png" id="1_176x1"]
 [ext_resource type="Texture2D" uid="uid://bj5kib510ym01" path="res://sprites/pointer.png" id="1_58068"]
@@ -49,10 +49,14 @@ color_ramp = SubResource("GradientTexture1D_vkwge")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_23f77"]
 size = Vector2(247.5, 129)
 
-[node name="warp-ship" type="CharacterBody2D"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_vbplp"]
+radius = 45.1774
+
+[node name="warp-ship" type="CharacterBody2D" node_paths=PackedStringArray("nepCheckArea")]
 collision_layer = 0
 collision_mask = 0
 script = ExtResource("1_sj8mj")
+nepCheckArea = NodePath("neptune-area")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_cgnen")
@@ -100,3 +104,10 @@ shape = SubResource("RectangleShape2D_23f77")
 
 [node name="dock-point" type="Marker2D" parent="."]
 position = Vector2(-70, -10)
+
+[node name="neptune-area" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 256
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="neptune-area"]
+shape = SubResource("CircleShape2D_vbplp")

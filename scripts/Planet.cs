@@ -12,6 +12,7 @@ public partial class Planet : Node2D
     [Export] int maxScale = 3;
 
     Ship ship;
+    Session session;
     EscapePod ep1;
     EscapePod ep2;
     EscapePod ep3;
@@ -24,6 +25,7 @@ public partial class Planet : Node2D
         planetScale = sprite.Scale.X;
 
         ship = GetNode<Ship>("/root/main/ship");
+        session = GetNode<Session>("/root/Session");
         ep1 = GetNode<EscapePod>("/root/main/escape-pods/escape-pod1");
         ep2 = GetNode<EscapePod>("/root/main/escape-pods/escape-pod2");
         ep3 = GetNode<EscapePod>("/root/main/escape-pods/escape-pod3");
@@ -76,7 +78,7 @@ public partial class Planet : Node2D
             case 3:
                 ep3.launched = true;
                 ep3.Visible = true;
-                ep3.velocity = new Vector2(25, -13);
+                ep3.velocity = new Vector2(25, 0);
                 ship.podCounter++;
                 ship.podReady = false;
                 ship.podBoardingTimer.Start();
@@ -118,9 +120,13 @@ public partial class Planet : Node2D
         {
             EscapePod escapePod = (EscapePod)area.GetParent();
             escapePod.QueueFree();
-            if (Name == "planet-mars")
+            if (Name == "planet-mars" && ship.warpShipReady)
             {
                 ship.podsArrived++;
+                return;
+            }
+            else
+            {
                 return;
             }
         }
@@ -134,6 +140,7 @@ public partial class Planet : Node2D
 
     private void End()
     {
+        session.podsSaved = ship.podsArrived;
         GetTree().ChangeSceneToFile("res://scene/ending-scene.tscn");
     }
 

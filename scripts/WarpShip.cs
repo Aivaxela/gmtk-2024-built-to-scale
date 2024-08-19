@@ -3,13 +3,19 @@ using Godot;
 public partial class WarpShip : CharacterBody2D
 {
     [Export] float speed = 20;
+    [Export] Area2D nepCheckArea;
     public Vector2 velocity;
     Vector2 direction;
+    Session session;
 
 
     public override void _Ready()
     {
         velocity = new Vector2(0, 0);
+
+        session = GetNode<Session>("/root/Session");
+
+        nepCheckArea.AreaEntered += OnNepEntered;
     }
 
     public override void _PhysicsProcess(double delta)
@@ -33,5 +39,11 @@ public partial class WarpShip : CharacterBody2D
         Velocity = velocity;
         MoveAndSlide();
         Rotation = velocity.Angle();
+    }
+
+    private void OnNepEntered(object _)
+    {
+        session.warpShipSafe = true;
+        QueueFree();
     }
 }

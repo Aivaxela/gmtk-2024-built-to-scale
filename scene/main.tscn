@@ -35,7 +35,7 @@ size = Vector2(217, 20)
 script = ExtResource("1_1lnp4")
 
 [node name="pod-boarding-timer" type="Timer" parent="."]
-wait_time = 3.0
+wait_time = 0.1
 one_shot = true
 
 [node name="camera" type="Camera2D" parent="." node_paths=PackedStringArray("ship", "boostingLabel")]
@@ -195,7 +195,7 @@ texture = ExtResource("9_0kycm")
 [node name="planets" type="Node" parent="."]
 
 [node name="planet-x" parent="planets" instance=ExtResource("5_fjy7s")]
-position = Vector2(-1229, -1146)
+position = Vector2(-815, -1031)
 
 [node name="planet-merc" parent="planets" instance=ExtResource("9_06ets")]
 position = Vector2(-1239, -118)
@@ -212,14 +212,14 @@ position = Vector2(962, -100)
 [node name="planet-io" parent="planets" instance=ExtResource("17_s4iqw")]
 position = Vector2(2006, -895)
 
-[node name="planet-pluto" parent="planets" instance=ExtResource("20_ob5a0")]
-position = Vector2(6309, -107)
-
 [node name="planet-uranus" parent="planets" instance=ExtResource("21_gptuc")]
 position = Vector2(2871, 279)
 
 [node name="planet-neptune" parent="planets" instance=ExtResource("22_4nyrq")]
-position = Vector2(4276, -99)
+position = Vector2(1800, -18)
+
+[node name="planet-pluto" parent="planets" instance=ExtResource("20_ob5a0")]
+position = Vector2(3905, 0)
 
 [node name="escape-pods" type="Node" parent="."]
 
@@ -243,7 +243,7 @@ velocity = Vector2(25, -13)
 speed = 250.0
 
 [node name="ship" parent="." node_paths=PackedStringArray("fuelLevelReadout", "infoLabel", "dockPoint", "boardingBar", "fuel", "podBoardingTimer") instance=ExtResource("4_2cdsw")]
-position = Vector2(2256, 141)
+position = Vector2(-103, -10)
 fuelLevelReadout = NodePath("../camera/fuel-level/readout")
 infoLabel = NodePath("../camera/info-label")
 dockPoint = NodePath("../warp-ship/dock-point")

@@ -24,6 +24,7 @@ public partial class Ship : CharacterBody2D
     Vector2 direction;
     Sun sun;
     WarpShip warpShip;
+    Session session;
     public bool boosting = false;
     public bool podReady = true;
     public bool warpShipReady = true;
@@ -42,6 +43,7 @@ public partial class Ship : CharacterBody2D
         currentShipState = State.PILOTING;
 
         sun = GetNode<Sun>("/root/main/sun");
+        session = GetNode<Session>("/root/Session");
         warpShip = GetNode<WarpShip>("/root/main/warp-ship");
         warpShipBeam = warpShip.GetNode<GpuParticles2D>("beam-particles");
         boardingTitle = boardingBar.GetNode<Label>("title");
@@ -89,8 +91,13 @@ public partial class Ship : CharacterBody2D
         UpdateInfoLabel();
         DockWarpShip();
         dirPointer.Visible = currentShipState == State.DOCKED ? false : true;
-        warpShipBeam.Emitting = currentShipState == State.DOCKED ? false : true;
         boardingBar.Value = podBoardingTimer.TimeLeft;
+
+        if (planetNear != null)
+        {
+            if (planetNear.Name == "planet-pluto") session.plutoVisited = true;
+            if (planetNear.Name == "planet-x") session.xFound = true;
+        }
     }
 
 
@@ -164,10 +171,12 @@ public partial class Ship : CharacterBody2D
             {
                 currentShipState = State.DOCKED;
                 nearWarpShip = false;
+                warpShipBeam.Emitting = false;
             }
             else if (currentShipState == State.DOCKED)
             {
                 currentShipState = State.PILOTING;
+                warpShipBeam.Emitting = true;
                 return;
             }
         }
