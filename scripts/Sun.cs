@@ -3,9 +3,10 @@ using Godot;
 public partial class Sun : CharacterBody2D
 {
     [Export] Area2D shipCheckArea;
+    [Export] Timer speedupTimer;
 
-    Vector2 velocity = new Vector2(70, 0);
-
+    Vector2 velocity = Vector2.Zero;
+    float speed = 20;
 
     Ship ship;
 
@@ -13,11 +14,12 @@ public partial class Sun : CharacterBody2D
     {
         ship = GetNode<Ship>("/root/main/ship");
         shipCheckArea.AreaEntered += OnAreaEntered;
+        speedupTimer.Timeout += OnSpeedupTimerTimeout;
     }
 
     public override void _PhysicsProcess(double delta)
     {
-        velocity = new Vector2(50, 0);
+        velocity = new Vector2(speed, 0);
 
         Velocity = velocity;
         MoveAndSlide();
@@ -31,5 +33,12 @@ public partial class Sun : CharacterBody2D
     private void OnAreaEntered(Area2D area)
     {
         ship?.PrepReset();
+    }
+
+    private void OnSpeedupTimerTimeout()
+    {
+        // speed += 5;
+
+        GD.Print("sun speed: " + speed);
     }
 }

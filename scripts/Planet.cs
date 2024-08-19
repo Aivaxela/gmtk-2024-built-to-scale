@@ -78,7 +78,7 @@ public partial class Planet : Node2D
             case 3:
                 ep3.launched = true;
                 ep3.Visible = true;
-                ep3.velocity = new Vector2(25, 0);
+                ep3.velocity = new Vector2(25, -13);
                 ship.podCounter++;
                 ship.podReady = false;
                 ship.podBoardingTimer.Start();

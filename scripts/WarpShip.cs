@@ -4,6 +4,7 @@ public partial class WarpShip : CharacterBody2D
 {
     [Export] float speed = 20;
     [Export] Area2D nepCheckArea;
+    [Export] Area2D sunCheckArea;
     public Vector2 velocity;
     Vector2 direction;
     Session session;
@@ -15,6 +16,7 @@ public partial class WarpShip : CharacterBody2D
 
         session = GetNode<Session>("/root/Session");
 
+        sunCheckArea.AreaEntered += OnSunEntered;
         nepCheckArea.AreaEntered += OnNepEntered;
     }
 
@@ -44,6 +46,11 @@ public partial class WarpShip : CharacterBody2D
     private void OnNepEntered(object _)
     {
         session.warpShipSafe = true;
+        QueueFree();
+    }
+
+    private void OnSunEntered(object _)
+    {
         QueueFree();
     }
 }

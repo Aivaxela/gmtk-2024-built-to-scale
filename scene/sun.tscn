@@ -44,9 +44,14 @@ b = Vector2(-149, -3)
 a = Vector2(0, 900)
 b = Vector2(0, -900)
 
-[node name="sun" type="CharacterBody2D" node_paths=PackedStringArray("shipCheckArea")]
+[node name="sun" type="CharacterBody2D" node_paths=PackedStringArray("shipCheckArea", "speedupTimer")]
 script = ExtResource("1_r6b3k")
 shipCheckArea = NodePath("ship-check")
+speedupTimer = NodePath("speedup")
+
+[node name="speedup" type="Timer" parent="."]
+wait_time = 7.0
+autostart = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(347, 7)

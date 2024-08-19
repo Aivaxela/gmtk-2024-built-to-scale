@@ -84,6 +84,12 @@ public partial class Ship : CharacterBody2D
 
     public void _Process_Docked(double delta)
     {
+        if (session.warpShipSafe)
+        {
+            currentShipState = State.PILOTING;
+            return;
+        }
+
         GlobalPosition = dockPoint.GlobalPosition;
         Rotation = 0;
         boostParticles.Emitting = false;
@@ -115,13 +121,14 @@ public partial class Ship : CharacterBody2D
             Vector2 boostDir = GetGlobalMousePosition() - GlobalPosition;
             direction = boostDir.Normalized();
             boostCoefficient = 0.001f;
-            speed = Mathf.Lerp(speed, 100f, 0.01f);
+            speed = Mathf.Lerp(speed, 100f, 0.008f);
         }
         else if (planetNear != null)
         {
             Vector2 dirToPlanet = planetNear.GlobalPosition - GlobalPosition;
             direction = dirToPlanet.Normalized();
-            fuel.Value += 0.5f;
+            if (planetNear.Name == "planet-uranus" || planetNear.Name == "planet-neptune" || planetNear.Name == "planet-titan")
+                fuel.Value += 0.5f;
         }
         else if (cometNear != null)
         {
@@ -239,7 +246,11 @@ public partial class Ship : CharacterBody2D
 
     private void Reset()
     {
+        GetNode<Sprite2D>("Sprite2D").Visible = false;
+        boostParticles.Emitting = false;
         shipExplosionParticles.Emitting = true;
+        velocity = Vector2.Zero;
+        speed = 0;
         shipExplosionEnd.Start();
     }
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://cmb3v75n0j57t"]
+[gd_scene load_steps=36 format=3 uid="uid://cmb3v75n0j57t"]
 
 [ext_resource type="Script" path="res://scripts/Main.cs" id="1_1lnp4"]
 [ext_resource type="Script" path="res://scripts/Camera.cs" id="1_d2gsj"]
@@ -25,7 +25,9 @@
 [ext_resource type="PackedScene" uid="uid://catjt8momf0ne" path="res://scene/mercury-token.tscn" id="17_436o4"]
 [ext_resource type="PackedScene" uid="uid://cka6n3jouxk2k" path="res://scene/escape-pod.tscn" id="17_ad66t"]
 [ext_resource type="PackedScene" uid="uid://cpl3pj1ya7ads" path="res://scene/planet-io.tscn" id="17_s4iqw"]
+[ext_resource type="PackedScene" uid="uid://dg4x01ft1bb6p" path="res://scene/planet-callisto.tscn" id="20_aoffm"]
 [ext_resource type="PackedScene" uid="uid://bp5vtsi8e5ro2" path="res://scene/planet-pluto.tscn" id="20_ob5a0"]
+[ext_resource type="PackedScene" uid="uid://tnqj7nbb0jkl" path="res://scene/planet-titan.tscn" id="21_08r46"]
 [ext_resource type="PackedScene" uid="uid://dloq5vvu1j4vi" path="res://scene/planet-uranus.tscn" id="21_gptuc"]
 [ext_resource type="PackedScene" uid="uid://dj802kd1o7qjs" path="res://scene/warp-ship.tscn" id="21_piltd"]
 [ext_resource type="PackedScene" uid="uid://dhstmrovnxqny" path="res://scene/planet-neptune.tscn" id="22_4nyrq"]
@@ -55,7 +57,7 @@ color_ramp = SubResource("GradientTexture1D_eyx6s")
 script = ExtResource("1_1lnp4")
 
 [node name="pod-boarding-timer" type="Timer" parent="."]
-wait_time = 0.1
+wait_time = 10.0
 one_shot = true
 
 [node name="camera" type="Camera2D" parent="." node_paths=PackedStringArray("ship")]
@@ -69,8 +71,8 @@ offset_top = 438.0
 offset_right = 157.0
 offset_bottom = 478.0
 pivot_offset = Vector2(141.5, 0)
-max_value = 1000.0
-value = 300.0
+max_value = 500.0
+value = 500.0
 texture_under = ExtResource("3_8j6ht")
 texture_progress = ExtResource("4_j05yb")
 
@@ -194,7 +196,7 @@ texture = ExtResource("9_0kycm")
 [node name="planets" type="Node" parent="."]
 
 [node name="planet-x" parent="planets" instance=ExtResource("5_fjy7s")]
-position = Vector2(-815, -1031)
+position = Vector2(-570, -1290)
 
 [node name="planet-merc" parent="planets" instance=ExtResource("9_06ets")]
 position = Vector2(-1239, -118)
@@ -203,7 +205,7 @@ position = Vector2(-1239, -118)
 position = Vector2(-58, 108)
 
 [node name="planet-venus" parent="planets" instance=ExtResource("11_1fbjj")]
-position = Vector2(-556, 465)
+position = Vector2(-598, 402)
 
 [node name="planet-earth" parent="planets" instance=ExtResource("12_dp6bp")]
 position = Vector2(20, -110)
@@ -211,17 +213,23 @@ position = Vector2(20, -110)
 [node name="planet-mars" parent="planets" instance=ExtResource("11_ox6sk")]
 position = Vector2(962, -100)
 
+[node name="planet-callisto" parent="planets" instance=ExtResource("20_aoffm")]
+position = Vector2(1225, -997)
+
 [node name="planet-io" parent="planets" instance=ExtResource("17_s4iqw")]
 position = Vector2(2006, -895)
+
+[node name="planet-titan" parent="planets" instance=ExtResource("21_08r46")]
+position = Vector2(1927, 407)
 
 [node name="planet-uranus" parent="planets" instance=ExtResource("21_gptuc")]
 position = Vector2(2871, 279)
 
 [node name="planet-neptune" parent="planets" instance=ExtResource("22_4nyrq")]
-position = Vector2(1800, -18)
+position = Vector2(4046, -97)
 
 [node name="planet-pluto" parent="planets" instance=ExtResource("20_ob5a0")]
-position = Vector2(3905, 0)
+position = Vector2(5643, 0)
 
 [node name="escape-pods" type="Node" parent="."]
 
@@ -277,7 +285,7 @@ collision_mask = 0
 script = ExtResource("16_n2dui")
 
 [node name="right-bound" type="CollisionShape2D" parent="y-boundaries"]
-position = Vector2(6000, 0)
+position = Vector2(6905, 0)
 rotation = 1.5708
 shape = SubResource("RectangleShape2D_xvr32")
 
@@ -301,7 +309,7 @@ texture = ExtResource("9_jy604")
 local_coords = true
 
 [node name="ship" parent="." node_paths=PackedStringArray("fuelLevelReadout", "infoLabel", "dockPoint", "boardingBar", "fuel", "podBoardingTimer") instance=ExtResource("4_2cdsw")]
-position = Vector2(2296, -334)
+position = Vector2(2, 2)
 fuelLevelReadout = NodePath("../camera/fuel-level/readout")
 infoLabel = NodePath("../camera/info-label")
 dockPoint = NodePath("../warp-ship/dock-point")
