@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://bsduutlfj7jtj"]
+
+[ext_resource type="Texture2D" uid="uid://yn23sawboxyp" path="res://sprites/pod-boarding-fill.png" id="1_76nfs"]
+[ext_resource type="Script" path="res://scripts/PlanetDebris.cs" id="2_2bx0e"]
+
+[sub_resource type="Curve" id="Curve_kotko"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.502128, 0.494505), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_xtbi1"]
+curve = SubResource("Curve_kotko")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_xrafy"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 200.0
+initial_velocity_max = 300.0
+gravity = Vector3(0, 98, 0)
+scale_curve = SubResource("CurveTexture_xtbi1")
+
+[node name="ship-debris" type="GPUParticles2D" node_paths=PackedStringArray("destroyTimer")]
+emitting = false
+amount = 10
+process_material = SubResource("ParticleProcessMaterial_xrafy")
+texture = ExtResource("1_76nfs")
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.4
+script = ExtResource("2_2bx0e")
+destroyTimer = NodePath("Timer")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5

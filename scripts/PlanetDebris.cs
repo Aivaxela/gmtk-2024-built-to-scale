@@ -13,5 +13,4 @@ public partial class PlanetDebris : GpuParticles2D
     {
         QueueFree();
     }
-
 }

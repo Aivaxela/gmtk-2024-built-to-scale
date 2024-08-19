@@ -32,5 +32,11 @@ public partial class EndingScene : Node2D
             planetX.Text = "Planet X Found: Yes";
             planetX.Modulate = Colors.GreenYellow;
         }
+
+        if (session.mercTokenCollected)
+        {
+            mercTreasure.Text = "Mercury's Treasure found: Yes";
+            mercTreasure.Modulate = Colors.GreenYellow;
+        }
     }
 }

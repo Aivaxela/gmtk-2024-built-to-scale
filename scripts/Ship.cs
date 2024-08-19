@@ -8,9 +8,12 @@ public partial class Ship : CharacterBody2D
     [Export] Area2D gravityCheckArea;
     [Export] Area2D boundCheckArea;
     [Export] Area2D warpShipCaptureArea;
+    [Export] Area2D mercTokenArea;
     [Export] Sprite2D dirPointer;
     [Export] Sprite2D bodyPointer;
     [Export] GpuParticles2D boostParticles;
+    [Export] GpuParticles2D shipExplosionParticles;
+    [Export] Timer shipExplosionEnd;
     [Export] Label fuelLevelReadout;
     [Export] Label infoLabel;
     [Export] Marker2D dockPoint;
@@ -53,7 +56,9 @@ public partial class Ship : CharacterBody2D
         boundCheckArea.AreaEntered += OnBoundaryEntered;
         warpShipCaptureArea.AreaEntered += OnWarpShipAreaEntered;
         warpShipCaptureArea.AreaExited += OnWarpShipAreaExited;
+        mercTokenArea.AreaExited += OnMercTokenEntered;
         podBoardingTimer.Timeout += OnBoardingTimerTimeout;
+        shipExplosionEnd.Timeout += OnExplosionTimeout;
     }
 
     public override void _PhysicsProcess(double delta)
@@ -221,6 +226,12 @@ public partial class Ship : CharacterBody2D
         podReady = true;
     }
 
+    private void OnMercTokenEntered(Area2D area)
+    {
+        session.mercTokenCollected = true;
+        area.GetParent().QueueFree();
+    }
+
     public void PrepReset()
     {
         CallDeferred("Reset");
@@ -228,8 +239,13 @@ public partial class Ship : CharacterBody2D
 
     private void Reset()
     {
-        GetTree().ReloadCurrentScene();
+        shipExplosionParticles.Emitting = true;
+        shipExplosionEnd.Start();
+    }
 
+    private void OnExplosionTimeout()
+    {
+        GetTree().ReloadCurrentScene();
     }
 
     private void UpdateHelpers()

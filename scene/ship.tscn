@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://cxvys3gvoltbj"]
+[gd_scene load_steps=14 format=3 uid="uid://cxvys3gvoltbj"]
 
 [ext_resource type="Script" path="res://scripts/Ship.cs" id="1_nse1n"]
 [ext_resource type="Texture2D" uid="uid://bj5kib510ym01" path="res://sprites/pointer.png" id="2_xbnpj"]
 [ext_resource type="Texture2D" uid="uid://cvro1hp5sskf8" path="res://sprites/ship.png" id="3_366lm"]
+[ext_resource type="PackedScene" uid="uid://bsduutlfj7jtj" path="res://scene/ship-death.tscn" id="4_68ble"]
 
 [sub_resource type="Gradient" id="Gradient_vpqrk"]
 offsets = PackedFloat32Array(0, 0.270531, 1)
@@ -36,16 +37,22 @@ size = Vector2(29, 14)
 [sub_resource type="CircleShape2D" id="CircleShape2D_8g411"]
 radius = 26.0192
 
-[node name="ship" type="CharacterBody2D" node_paths=PackedStringArray("gravityCheckArea", "boundCheckArea", "warpShipCaptureArea", "dirPointer", "bodyPointer", "boostParticles")]
+[sub_resource type="CircleShape2D" id="CircleShape2D_0hwxa"]
+radius = 40.0125
+
+[node name="ship" type="CharacterBody2D" node_paths=PackedStringArray("gravityCheckArea", "boundCheckArea", "warpShipCaptureArea", "mercTokenArea", "dirPointer", "bodyPointer", "boostParticles", "shipExplosionParticles", "shipExplosionEnd")]
 collision_layer = 2
 collision_mask = 2
 script = ExtResource("1_nse1n")
 gravityCheckArea = NodePath("gravity-area")
 boundCheckArea = NodePath("boundary-check-area")
 warpShipCaptureArea = NodePath("warp-ship-capture")
+mercTokenArea = NodePath("merc-token-area")
 dirPointer = NodePath("pointer")
 bodyPointer = NodePath("pPointer")
 boostParticles = NodePath("boost-particles")
+shipExplosionParticles = NodePath("ship-debris")
+shipExplosionEnd = NodePath("ship-debris/Timer")
 
 [node name="pointer" type="Sprite2D" parent="."]
 position = Vector2(35, -12)
@@ -109,3 +116,15 @@ collision_mask = 128
 [node name="CollisionShape2D" type="CollisionShape2D" parent="warp-ship-capture"]
 position = Vector2(15, 9)
 shape = SubResource("CircleShape2D_8g411")
+
+[node name="merc-token-area" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 512
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="merc-token-area"]
+position = Vector2(15, 9)
+shape = SubResource("CircleShape2D_0hwxa")
+
+[node name="ship-debris" parent="." instance=ExtResource("4_68ble")]
+
+[editable path="ship-debris"]

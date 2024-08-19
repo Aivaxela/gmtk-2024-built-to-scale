@@ -70,6 +70,7 @@ interact={
 2d_physics/layer_7="ep-to-mars"
 2d_physics/layer_8="warp-ship-capture"
 2d_physics/layer_9="warp-ship-nep"
+2d_physics/layer_10="merc-token"
 
 [rendering]
 

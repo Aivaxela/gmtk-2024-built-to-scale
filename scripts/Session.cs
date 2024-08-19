@@ -6,9 +6,5 @@ public partial class Session : Node
     public bool warpShipSafe = false;
     public bool plutoVisited = false;
     public bool xFound = false;
-
-    public override void _Process(double delta)
-    {
-    }
-
+    public bool mercTokenCollected = false;
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://cmb3v75n0j57t"]
+[gd_scene load_steps=34 format=3 uid="uid://cmb3v75n0j57t"]
 
 [ext_resource type="Script" path="res://scripts/Main.cs" id="1_1lnp4"]
 [ext_resource type="Script" path="res://scripts/Camera.cs" id="1_d2gsj"]
@@ -15,12 +15,14 @@
 [ext_resource type="Texture2D" uid="uid://cm47di47i1hwj" path="res://sprites/parallax-5.png" id="8_pbo15"]
 [ext_resource type="Texture2D" uid="uid://dnw04sjpguhu0" path="res://sprites/planet-jup.png" id="9_0kycm"]
 [ext_resource type="PackedScene" uid="uid://djf880mbi2nqj" path="res://scene/planet-merc.tscn" id="9_06ets"]
+[ext_resource type="Texture2D" uid="uid://13utix0uu7q4" path="res://sprites/sun-particle.png" id="9_jy604"]
 [ext_resource type="Texture2D" uid="uid://drhoo4sm70ka" path="res://sprites/parallax-6.png" id="10_4gmp4"]
 [ext_resource type="PackedScene" uid="uid://qes2ltlb2fmx" path="res://scene/planet-venus.tscn" id="11_1fbjj"]
 [ext_resource type="PackedScene" uid="uid://biakw32ljn108" path="res://scene/planet-mars.tscn" id="11_ox6sk"]
 [ext_resource type="PackedScene" uid="uid://bla8m4yayvh8r" path="res://scene/planet-earth.tscn" id="12_dp6bp"]
 [ext_resource type="PackedScene" uid="uid://dtnnci13fmaw8" path="res://scene/sun.tscn" id="15_mx2ub"]
 [ext_resource type="Script" path="res://scripts/Boundaries.cs" id="16_n2dui"]
+[ext_resource type="PackedScene" uid="uid://catjt8momf0ne" path="res://scene/mercury-token.tscn" id="17_436o4"]
 [ext_resource type="PackedScene" uid="uid://cka6n3jouxk2k" path="res://scene/escape-pod.tscn" id="17_ad66t"]
 [ext_resource type="PackedScene" uid="uid://cpl3pj1ya7ads" path="res://scene/planet-io.tscn" id="17_s4iqw"]
 [ext_resource type="PackedScene" uid="uid://bp5vtsi8e5ro2" path="res://scene/planet-pluto.tscn" id="20_ob5a0"]
@@ -31,6 +33,24 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xvr32"]
 size = Vector2(217, 20)
 
+[sub_resource type="Gradient" id="Gradient_gnhvq"]
+offsets = PackedFloat32Array(0, 0.396135, 1)
+colors = PackedColorArray(0.317647, 0, 1, 1, 0.682353, 0, 0.603922, 0.8, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_eyx6s"]
+gradient = SubResource("Gradient_gnhvq")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3fdwl"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(2000, 1, 1)
+spread = 15.0
+initial_velocity_min = -50.0
+initial_velocity_max = 50.0
+gravity = Vector3(0, 0, 0)
+scale_max = 2.0
+color_ramp = SubResource("GradientTexture1D_eyx6s")
+
 [node name="main" type="Node"]
 script = ExtResource("1_1lnp4")
 
@@ -38,17 +58,9 @@ script = ExtResource("1_1lnp4")
 wait_time = 0.1
 one_shot = true
 
-[node name="camera" type="Camera2D" parent="." node_paths=PackedStringArray("ship", "boostingLabel")]
+[node name="camera" type="Camera2D" parent="." node_paths=PackedStringArray("ship")]
 script = ExtResource("1_d2gsj")
 ship = NodePath("../ship")
-boostingLabel = NodePath("boosting")
-
-[node name="boosting" type="Label" parent="camera"]
-offset_left = 846.0
-offset_top = -615.0
-offset_right = 929.0
-offset_bottom = -592.0
-text = "BOOSTING"
 
 [node name="fuel-level" type="TextureProgressBar" parent="camera"]
 z_index = 1
@@ -131,19 +143,6 @@ text = "Info Label Info Label Info Label Info Label Info Label Info Label "
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="boundaries" type="Area2D" parent="."]
-collision_layer = 4
-collision_mask = 0
-script = ExtResource("16_n2dui")
-
-[node name="top-bound" type="CollisionShape2D" parent="boundaries"]
-position = Vector2(0, -1500)
-shape = SubResource("RectangleShape2D_xvr32")
-
-[node name="bottom-bound" type="CollisionShape2D" parent="boundaries"]
-position = Vector2(0, 1500)
-shape = SubResource("RectangleShape2D_xvr32")
-
 [node name="bgs" type="Node" parent="."]
 
 [node name="stars-1" type="Parallax2D" parent="bgs"]
@@ -200,6 +199,9 @@ position = Vector2(-815, -1031)
 [node name="planet-merc" parent="planets" instance=ExtResource("9_06ets")]
 position = Vector2(-1239, -118)
 
+[node name="mercury-token" parent="planets/planet-merc" instance=ExtResource("17_436o4")]
+position = Vector2(-58, 108)
+
 [node name="planet-venus" parent="planets" instance=ExtResource("11_1fbjj")]
 position = Vector2(-556, 465)
 
@@ -242,8 +244,64 @@ velocity = Vector2(25, -13)
 velocity = Vector2(25, -13)
 speed = 250.0
 
+[node name="x-boundaries" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("16_n2dui")
+
+[node name="top-bound" type="CollisionShape2D" parent="x-boundaries"]
+position = Vector2(0, -2300)
+shape = SubResource("RectangleShape2D_xvr32")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="x-boundaries/top-bound"]
+position = Vector2(1, 0)
+amount = 1500
+process_material = SubResource("ParticleProcessMaterial_3fdwl")
+texture = ExtResource("9_jy604")
+local_coords = true
+
+[node name="bottom-bound" type="CollisionShape2D" parent="x-boundaries"]
+position = Vector2(0, 2300)
+shape = SubResource("RectangleShape2D_xvr32")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="x-boundaries/bottom-bound"]
+position = Vector2(1, 0)
+amount = 1500
+process_material = SubResource("ParticleProcessMaterial_3fdwl")
+texture = ExtResource("9_jy604")
+local_coords = true
+
+[node name="y-boundaries" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("16_n2dui")
+
+[node name="right-bound" type="CollisionShape2D" parent="y-boundaries"]
+position = Vector2(6000, 0)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_xvr32")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="y-boundaries/right-bound"]
+position = Vector2(1, 0)
+amount = 1500
+process_material = SubResource("ParticleProcessMaterial_3fdwl")
+texture = ExtResource("9_jy604")
+local_coords = true
+
+[node name="left-bound" type="CollisionShape2D" parent="y-boundaries"]
+position = Vector2(-2392, 0)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_xvr32")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="y-boundaries/left-bound"]
+position = Vector2(1, 0)
+amount = 1500
+process_material = SubResource("ParticleProcessMaterial_3fdwl")
+texture = ExtResource("9_jy604")
+local_coords = true
+
 [node name="ship" parent="." node_paths=PackedStringArray("fuelLevelReadout", "infoLabel", "dockPoint", "boardingBar", "fuel", "podBoardingTimer") instance=ExtResource("4_2cdsw")]
-position = Vector2(-103, -10)
+position = Vector2(2296, -334)
 fuelLevelReadout = NodePath("../camera/fuel-level/readout")
 infoLabel = NodePath("../camera/info-label")
 dockPoint = NodePath("../warp-ship/dock-point")
