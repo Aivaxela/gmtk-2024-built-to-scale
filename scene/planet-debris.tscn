@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://bdkgj5gmledl"]
 
 [ext_resource type="Texture2D" uid="uid://c8e1v1x0lfrpn" path="res://sprites/planet-debris.png" id="1_6w2t6"]
-[ext_resource type="Script" path="res://scene/PlanetDebris.cs" id="2_8074v"]
+[ext_resource type="Script" path="res://scripts/PlanetDebris.cs" id="2_8074v"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_cdipf"]
 particles_animation = true
@@ -17,8 +17,8 @@ gradient = SubResource("Gradient_oq1f8")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1h4vq"]
 particle_flag_disable_z = true
-initial_velocity_min = 150.0
-initial_velocity_max = 200.0
+initial_velocity_min = 200.0
+initial_velocity_max = 300.0
 angular_velocity_min = -300.0
 angular_velocity_max = 300.0
 gravity = Vector3(0, 0, 0)
@@ -27,16 +27,18 @@ damping_max = 29.391
 color_ramp = SubResource("GradientTexture1D_b3ium")
 anim_offset_max = 1.0
 
-[node name="planet-debris" type="GPUParticles2D"]
+[node name="planet-debris" type="GPUParticles2D" node_paths=PackedStringArray("destroyTimer")]
 modulate = Color(0.494118, 0.137255, 0, 1)
 material = SubResource("CanvasItemMaterial_cdipf")
+emitting = false
 amount = 7
 process_material = SubResource("ParticleProcessMaterial_1h4vq")
 texture = ExtResource("1_6w2t6")
 lifetime = 10.0
 explosiveness = 1.0
+visibility_rect = Rect2(-100, -150, 2000, 300)
 script = ExtResource("2_8074v")
+destroyTimer = NodePath("Timer")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 10.0
-autostart = true

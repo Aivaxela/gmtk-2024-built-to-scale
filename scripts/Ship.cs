@@ -7,6 +7,9 @@ public partial class Ship : CharacterBody2D
     [Export] Sprite2D dirPointer;
     [Export] Sprite2D bodyPointer;
     [Export] GpuParticles2D boostParticles;
+    [Export] Label fuelLevelReadout;
+    [Export] Label infoLabel;
+    [Export] public TextureProgressBar fuel;
 
     float speed = 200;
     float boostCoefficient = 0.01f;
@@ -14,8 +17,9 @@ public partial class Ship : CharacterBody2D
     Vector2 direction;
     Sun sun;
     public bool boosting = false;
+    public int podCounter = 1;
 
-    Planet planetNear = null;
+    public Planet planetNear = null;
     Comet cometNear = null;
 
 
@@ -26,6 +30,7 @@ public partial class Ship : CharacterBody2D
         gravityCheckArea.AreaEntered += OnGravityAreaEntered;
         gravityCheckArea.AreaExited += OnGravityAreaExited;
         boundCheckArea.AreaEntered += OnBoundaryEntered;
+
     }
 
     public override void _PhysicsProcess(double delta)
@@ -34,10 +39,17 @@ public partial class Ship : CharacterBody2D
         CalculateVelocity();
         UpdateHelpers();
 
-        if (Input.IsActionJustPressed("reset")) Reset();
+        if (Input.IsActionJustPressed("reset")) PrepReset();
 
         CheckForBoosting();
     }
+
+    public override void _Process(double delta)
+    {
+        fuelLevelReadout.Text = fuel.Value.ToString();
+        UpdateInfoLabel();
+    }
+
 
     private void UpdateDirection()
     {
@@ -54,6 +66,7 @@ public partial class Ship : CharacterBody2D
         {
             Vector2 dirToPlanet = planetNear.GlobalPosition - GlobalPosition;
             direction = dirToPlanet.Normalized();
+            fuel.Value += 0.5f;
         }
         else if (cometNear != null)
         {
@@ -76,7 +89,7 @@ public partial class Ship : CharacterBody2D
 
     private void CalculateVelocity()
     {
-        velocity = velocity.Slerp(direction, 0.009f + boostCoefficient);
+        velocity = velocity.Slerp(direction, 0.017f + boostCoefficient);
         velocity = velocity.Normalized() * speed;
 
         Velocity = velocity;
@@ -87,9 +100,17 @@ public partial class Ship : CharacterBody2D
 
     private void CheckForBoosting()
     {
+        if (fuel.Value <= 0 && false)  //TODO: remove infinite fuel
+        {
+            boosting = false;
+            boostParticles.Emitting = false;
+            boostCoefficient = 0f;
+            return;
+        }
         boosting = Input.IsActionPressed("boost");
         boostParticles.Emitting = Input.IsActionPressed("boost");
         boostCoefficient = Input.IsActionPressed("boost") ? 0.01f : 0f;
+        if (boosting) fuel.Value -= 2;
     }
 
     private void OnGravityAreaEntered(Area2D area)
@@ -106,15 +127,18 @@ public partial class Ship : CharacterBody2D
 
     private void OnBoundaryEntered(object _)
     {
-        Reset();
+        PrepReset();
     }
 
-    public void Reset()
+    public void PrepReset()
     {
-        GlobalPosition = new Vector2(0, 0);
-        velocity = new Vector2(150, 0);
-        RotationDegrees = 0;
-        sun.GlobalPosition = new Vector2(388, 0);
+        CallDeferred("Reset");
+    }
+
+    private void Reset()
+    {
+        GetTree().ReloadCurrentScene();
+
     }
 
     private void UpdateHelpers()
@@ -132,6 +156,21 @@ public partial class Ship : CharacterBody2D
         else
         {
             bodyPointer.Visible = false;
+        }
+    }
+
+    private void UpdateInfoLabel()
+    {
+        infoLabel.Text = "";
+
+        if (planetNear == null) return;
+        if (planetNear.Name == "planet-earth" && podCounter <= 3)
+        {
+            infoLabel.Text = $"Left-click to launch Escape Pod #{podCounter}!";
+        }
+        else
+        {
+            infoLabel.Text = "";
         }
     }
 }

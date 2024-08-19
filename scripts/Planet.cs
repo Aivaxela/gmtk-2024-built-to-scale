@@ -8,15 +8,23 @@ public partial class Planet : Node2D
     [Export] Sprite2D selectionSprite;
     [Export] AnimationPlayer animPlayer;
     [Export] Timer destroyTimer;
-    [Export] PackedScene planetDestroyScene;
+    [Export] GpuParticles2D planetDebris;
+    [Export] int maxScale = 3;
 
     Ship ship;
+    EscapePod ep1;
+    EscapePod ep2;
+    EscapePod ep3;
+
     float planetScale = 1;
     bool isSelected = false;
 
     public override void _Ready()
     {
         ship = GetNode<Ship>("/root/main/ship");
+        ep1 = GetNode<EscapePod>("/root/main/escape-pods/escape-pod1");
+        ep2 = GetNode<EscapePod>("/root/main/escape-pods/escape-pod2");
+        ep3 = GetNode<EscapePod>("/root/main/escape-pods/escape-pod3");
 
         gravityArea.MouseEntered += OnMouseEntered;
         gravityArea.MouseExited += OnMouseExited;
@@ -27,13 +35,47 @@ public partial class Planet : Node2D
 
     public override void _PhysicsProcess(double delta)
     {
-        if (Input.IsActionPressed("scale-up") && planetScale < 3 && isSelected) planetScale += 0.05f;
+        if (Input.IsActionPressed("scale-up") && planetScale < maxScale && isSelected) planetScale += 0.05f;
         if (Input.IsActionPressed("scale-down") && planetScale > 0.5 && isSelected) planetScale -= 0.05f;
+        if (Input.IsActionJustPressed("interact") && Name == "planet-earth")
+        {
+            if (ship.planetNear != null) LaunchPodFromEarth();
+        }
 
         sprite.Scale = new Vector2(planetScale, planetScale);
         gravityArea.Scale = new Vector2(planetScale / 4f, planetScale / 4f);
+
+        GD.Print(ship.podCounter);
     }
 
+
+    private void LaunchPodFromEarth()
+    {
+        GD.Print("launch");
+        switch (ship.podCounter)
+        {
+            case 1:
+                ep1.launched = true;
+                ep1.Visible = true;
+                ep1.velocity = new Vector2(30, 0);
+                ship.podCounter++;
+                return;
+            case 2:
+                ep2.launched = true;
+                ep2.Visible = true;
+                ep2.velocity = new Vector2(30, 10);
+                ship.podCounter++;
+                return;
+            case 3:
+                ep3.launched = true;
+                ep3.Visible = true;
+                ep3.velocity = new Vector2(25, -13);
+                ship.podCounter++;
+                return;
+            default:
+                break;
+        }
+    }
 
     private void OnMouseEntered()
     {
@@ -54,17 +96,21 @@ public partial class Planet : Node2D
         {
             animPlayer.Play("burn up");
             destroyTimer.Start();
+            shipCheckArea.QueueFree();
             return;
         }
-        ship?.Reset();
+        ship?.PrepReset();
     }
 
     private void OnTimeout()
     {
-        PlanetDebris planetDebris = (PlanetDebris)planetDestroyScene.Instantiate();
-        planetDebris.GlobalPosition = GlobalPosition;
+        planetDebris.Emitting = true;
+        Timer debrisTimer = (Timer)planetDebris.GetNode("Timer");
+        debrisTimer.Start();
         RemoveChild(planetDebris);
         GetParent().AddChild(planetDebris);
+        planetDebris.GlobalPosition = GlobalPosition;
+
         QueueFree();
     }
 }

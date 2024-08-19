@@ -1,12 +1,27 @@
 [gd_scene load_steps=13 format=3 uid="uid://djf880mbi2nqj"]
 
 [ext_resource type="Script" path="res://scripts/Planet.cs" id="1_0muq4"]
-[ext_resource type="PackedScene" uid="uid://bdkgj5gmledl" path="res://scene/planet-debris.tscn" id="2_0j7ta"]
 [ext_resource type="Texture2D" uid="uid://tuoetl6d2q3r" path="res://sprites/planet-gravity-ring.png" id="2_gnqbm"]
 [ext_resource type="Texture2D" uid="uid://c6iw5ta26xsqo" path="res://sprites/planet-outline.png" id="3_p8wxn"]
 [ext_resource type="Texture2D" uid="uid://2uwd6q3mjlgr" path="res://sprites/planet-merc-inner.png" id="4_7sh4i"]
 [ext_resource type="Texture2D" uid="uid://bwkefdhygjh6t" path="res://sprites/planet-shade.png" id="5_pw0ow"]
 [ext_resource type="Texture2D" uid="uid://ds73e6qplvc1x" path="res://sprites/planet-select.png" id="7_idvds"]
+[ext_resource type="PackedScene" uid="uid://bdkgj5gmledl" path="res://scene/planet-debris.tscn" id="7_peslc"]
+
+[sub_resource type="Animation" id="Animation_8uc75"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_u6ai0"]
 resource_name = "burn up"
@@ -25,21 +40,6 @@ tracks/0/keys = {
 "values": [Color(1, 1, 1, 1), Color(1, 0, 0, 1)]
 }
 
-[sub_resource type="Animation" id="Animation_8uc75"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1imb5"]
 _data = {
 "RESET": SubResource("Animation_8uc75"),
@@ -52,7 +52,7 @@ radius = 500.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_vn3l6"]
 radius = 40.4475
 
-[node name="planet-merc" type="Node2D" node_paths=PackedStringArray("gravityArea", "shipCheckArea", "sprite", "selectionSprite", "animPlayer", "destroyTimer")]
+[node name="planet-merc" type="Node2D" node_paths=PackedStringArray("gravityArea", "shipCheckArea", "sprite", "selectionSprite", "animPlayer", "destroyTimer", "planetDebris")]
 position = Vector2(179, -24)
 script = ExtResource("1_0muq4")
 gravityArea = NodePath("gravity-area")
@@ -61,7 +61,7 @@ sprite = NodePath("Sprite2D")
 selectionSprite = NodePath("Sprite2D/selectr")
 animPlayer = NodePath("AnimationPlayer")
 destroyTimer = NodePath("Timer")
-planetDestroyScene = ExtResource("2_0j7ta")
+planetDebris = NodePath("planet-debris")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 6.0
@@ -109,3 +109,5 @@ collision_mask = 18
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/ship-check"]
 shape = SubResource("CircleShape2D_vn3l6")
 debug_color = Color(0.956863, 0, 0.545098, 0.243137)
+
+[node name="planet-debris" parent="." instance=ExtResource("7_peslc")]

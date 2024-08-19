@@ -1,9 +1,12 @@
-[gd_scene load_steps=18 format=3 uid="uid://cmb3v75n0j57t"]
+[gd_scene load_steps=22 format=3 uid="uid://cmb3v75n0j57t"]
 
 [ext_resource type="Script" path="res://scripts/Main.cs" id="1_1lnp4"]
 [ext_resource type="Script" path="res://scripts/Camera.cs" id="1_d2gsj"]
+[ext_resource type="Texture2D" uid="uid://cbvv63x42fupc" path="res://sprites/fuel-outline.png" id="3_8j6ht"]
 [ext_resource type="PackedScene" uid="uid://cxvys3gvoltbj" path="res://scene/ship.tscn" id="4_2cdsw"]
+[ext_resource type="Texture2D" uid="uid://dhprypsetb3k7" path="res://sprites/fuel-fill.png" id="4_j05yb"]
 [ext_resource type="PackedScene" uid="uid://dbxyqlcc7cohr" path="res://scene/planet-x.tscn" id="5_fjy7s"]
+[ext_resource type="FontFile" uid="uid://c1fipai1g5lc1" path="res://good_timing/good timing bd.otf" id="5_t61t0"]
 [ext_resource type="Texture2D" uid="uid://c1oqv7i2hhhj6" path="res://sprites/parallax-1.png" id="5_xrwp7"]
 [ext_resource type="Texture2D" uid="uid://10elfx8cpdun" path="res://sprites/parallax-2.png" id="6_qtlgi"]
 [ext_resource type="Texture2D" uid="uid://b6gl8kdvmpf2e" path="res://sprites/parallax-3.png" id="7_by3pu"]
@@ -16,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://bnshyqijxnewi" path="res://scene/comet.tscn" id="14_yu1dr"]
 [ext_resource type="PackedScene" uid="uid://dtnnci13fmaw8" path="res://scene/sun.tscn" id="15_mx2ub"]
 [ext_resource type="Script" path="res://scripts/Boundaries.cs" id="16_n2dui"]
+[ext_resource type="PackedScene" uid="uid://cka6n3jouxk2k" path="res://scene/escape-pod.tscn" id="17_ad66t"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xvr32"]
 size = Vector2(217, 20)
@@ -34,6 +38,54 @@ offset_top = -615.0
 offset_right = 929.0
 offset_bottom = -592.0
 text = "BOOSTING"
+
+[node name="fuel-level" type="TextureProgressBar" parent="camera"]
+offset_left = -126.0
+offset_top = 438.0
+offset_right = 157.0
+offset_bottom = 478.0
+pivot_offset = Vector2(141.5, 0)
+max_value = 1000.0
+value = 300.0
+texture_under = ExtResource("3_8j6ht")
+texture_progress = ExtResource("4_j05yb")
+texture_progress_offset = Vector2(1, 1)
+
+[node name="title" type="Label" parent="camera/fuel-level"]
+layout_mode = 0
+offset_left = 22.0
+offset_top = -57.0
+offset_right = 277.0
+offset_bottom = -1.0
+theme_override_fonts/font = ExtResource("5_t61t0")
+theme_override_font_sizes/font_size = 46
+text = "FUEL"
+horizontal_alignment = 1
+
+[node name="readout" type="Label" parent="camera/fuel-level"]
+layout_mode = 0
+offset_left = 116.0
+offset_top = 6.0
+offset_right = 171.0
+offset_bottom = 31.0
+pivot_offset = Vector2(25, 0)
+theme_override_fonts/font = ExtResource("5_t61t0")
+theme_override_font_sizes/font_size = 20
+text = "1000"
+horizontal_alignment = 1
+
+[node name="info-label" type="Label" parent="camera"]
+modulate = Color(1, 1, 0, 1)
+offset_left = -235.0
+offset_top = -513.0
+offset_right = 265.0
+offset_bottom = -313.0
+pivot_offset = Vector2(250, 0)
+theme_override_fonts/font = ExtResource("5_t61t0")
+theme_override_font_sizes/font_size = 36
+text = "Info Label Info Label Info Label Info Label Info Label Info Label "
+horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="boundaries" type="Area2D" parent="."]
 collision_layer = 4
@@ -95,30 +147,54 @@ texture = ExtResource("10_4gmp4")
 [node name="planets" type="Node" parent="."]
 
 [node name="planet-x" parent="planets" instance=ExtResource("5_fjy7s")]
-position = Vector2(776, 278)
-
-[node name="planet-x2" parent="planets" instance=ExtResource("5_fjy7s")]
-position = Vector2(6241, 1059)
+position = Vector2(-1229, -1146)
 
 [node name="planet-merc" parent="planets" instance=ExtResource("9_06ets")]
-position = Vector2(1554, -93)
+position = Vector2(-1239, -118)
 
 [node name="planet-venus" parent="planets" instance=ExtResource("11_1fbjj")]
-position = Vector2(2321, 601)
+position = Vector2(-556, 264)
 
 [node name="planet-earth" parent="planets" instance=ExtResource("12_dp6bp")]
-position = Vector2(3032, -244)
+position = Vector2(20, -110)
 
 [node name="planet-mars" parent="planets" instance=ExtResource("11_ox6sk")]
-position = Vector2(166, -111)
+position = Vector2(962, -100)
+
+[node name="planet-mars2" parent="planets" instance=ExtResource("11_ox6sk")]
+position = Vector2(2006, -913)
+scale = Vector2(1.7, 1.7)
 
 [node name="comets" type="Node" parent="."]
 
 [node name="comet" parent="comets" instance=ExtResource("14_yu1dr")]
 position = Vector2(3578, -1290)
 
-[node name="ship" parent="." instance=ExtResource("4_2cdsw")]
-position = Vector2(149, 9)
+[node name="escape-pods" type="Node" parent="."]
+
+[node name="escape-pod1" parent="escape-pods" instance=ExtResource("17_ad66t")]
+visible = false
+position = Vector2(72, -117)
+velocity = Vector2(30, 0)
+velocity = Vector2(30, 0)
+
+[node name="escape-pod2" parent="escape-pods" instance=ExtResource("17_ad66t")]
+visible = false
+position = Vector2(72, -117)
+velocity = Vector2(30, 10)
+velocity = Vector2(30, 10)
+
+[node name="escape-pod3" parent="escape-pods" instance=ExtResource("17_ad66t")]
+visible = false
+position = Vector2(72, -117)
+velocity = Vector2(25, -13)
+velocity = Vector2(25, -13)
+speed = 250.0
+
+[node name="ship" parent="." node_paths=PackedStringArray("fuelLevelReadout", "infoLabel", "fuel") instance=ExtResource("4_2cdsw")]
+fuelLevelReadout = NodePath("../camera/fuel-level/readout")
+infoLabel = NodePath("../camera/info-label")
+fuel = NodePath("../camera/fuel-level")
 
 [node name="sun" parent="." instance=ExtResource("15_mx2ub")]
-position = Vector2(388, 0)
+position = Vector2(-1324, 0)

@@ -1,0 +1,70 @@
+[gd_scene load_steps=9 format=3 uid="uid://cka6n3jouxk2k"]
+
+[ext_resource type="Texture2D" uid="uid://dcgd6uwaxjihd" path="res://sprites/escape-pod.png" id="1_rcx8i"]
+[ext_resource type="Script" path="res://scripts/EscapePod.cs" id="1_xcwop"]
+[ext_resource type="Texture2D" uid="uid://bj5kib510ym01" path="res://sprites/pointer.png" id="2_fxj14"]
+
+[sub_resource type="Gradient" id="Gradient_d3wvb"]
+offsets = PackedFloat32Array(0, 0.270531, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.996078, 0.541176, 0, 0.819608, 1, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_xtu0e"]
+gradient = SubResource("Gradient_d3wvb")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_eq7tj"]
+particle_flag_disable_z = true
+spread = 20.0
+initial_velocity_min = -100.0
+initial_velocity_max = -75.0
+gravity = Vector3(0, 0, 0)
+scale_max = 2.0
+color_ramp = SubResource("GradientTexture1D_xtu0e")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8osas"]
+size = Vector2(3, 3)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_155ch"]
+radius = 26.0192
+
+[node name="escape-pod" type="CharacterBody2D" node_paths=PackedStringArray("bodyPointer", "sprite", "gravityCheckArea")]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_xcwop")
+bodyPointer = NodePath("pPointer")
+sprite = NodePath("Sprite2D")
+gravityCheckArea = NodePath("gravity-area")
+
+[node name="pPointer" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(1, 0, 0, 0.654902)
+position = Vector2(7, 5)
+rotation = 1.5708
+scale = Vector2(0.5, 0.3)
+texture = ExtResource("2_fxj14")
+centered = false
+offset = Vector2(-1.585, -26.785)
+
+[node name="boost-particles" type="GPUParticles2D" parent="."]
+position = Vector2(6, 5)
+amount = 35
+process_material = SubResource("ParticleProcessMaterial_eq7tj")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_rcx8i")
+centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(7, 5)
+shape = SubResource("RectangleShape2D_8osas")
+
+[node name="gravity-area" type="Area2D" parent="."]
+position = Vector2(7, 5)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="gravity-area"]
+shape = SubResource("CircleShape2D_155ch")
+debug_color = Color(0, 0.6, 0.701961, 0.117647)
+
+[node name="mars-check-area" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="mars-check-area"]

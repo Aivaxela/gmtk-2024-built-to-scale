@@ -54,11 +54,11 @@ public partial class Comet : CharacterBody2D
     private void OnAreaEntered(Area2D area)
     {
         Ship ship = (Ship)area.GetParent();
-        ship?.Reset();
+        ship?.PrepReset();
     }
 
     private void OnSpawnAreaEntered(object _)
     {
-        velocity = new Vector2(120, 120);
+        velocity = new Vector2(120, 60);
     }
 }

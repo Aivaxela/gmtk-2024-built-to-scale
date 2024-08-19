@@ -30,6 +30,6 @@ public partial class Sun : CharacterBody2D
 
     private void OnAreaEntered(Area2D area)
     {
-        ship?.Reset();
+        ship?.PrepReset();
     }
 }
