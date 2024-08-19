@@ -6,6 +6,7 @@ public partial class EscapePod : CharacterBody2D
     [Export] public Vector2 velocity = Vector2.Zero;
     [Export] Sprite2D sprite;
     [Export] Area2D gravityCheckArea;
+    [Export] Area2D sunCheckArea;
     [Export] float speed = 100;
     Vector2 direction;
     public bool launched = false;
@@ -18,6 +19,7 @@ public partial class EscapePod : CharacterBody2D
     {
         gravityCheckArea.AreaEntered += OnGravityAreaEntered;
         gravityCheckArea.AreaExited += OnGravityAreaExited;
+        sunCheckArea.AreaEntered += OnSunEntered;
     }
 
     public override void _PhysicsProcess(double delta)
@@ -74,6 +76,11 @@ public partial class EscapePod : CharacterBody2D
     }
 
     private void SuccessfulLanding()
+    {
+        QueueFree();
+    }
+
+    private void OnSunEntered(object _)
     {
         QueueFree();
     }

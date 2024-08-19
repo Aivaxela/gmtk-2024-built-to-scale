@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://biakw32ljn108"]
+[gd_scene load_steps=19 format=3 uid="uid://biakw32ljn108"]
 
 [ext_resource type="Script" path="res://scripts/Planet.cs" id="1_lumku"]
 [ext_resource type="PackedScene" uid="uid://bdkgj5gmledl" path="res://scene/planet-debris.tscn" id="2_ag382"]
@@ -79,6 +79,9 @@ anim_offset_max = 1.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_vn3l6"]
 radius = 40.4475
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_esmw4"]
+radius = 40.7922
+
 [node name="planet-mars" type="Node2D" node_paths=PackedStringArray("gravityArea", "shipCheckArea", "sprite", "selectionSprite", "animPlayer", "destroyTimer", "planetDebris")]
 position = Vector2(179, -24)
 script = ExtResource("1_lumku")
@@ -140,7 +143,7 @@ texture = ExtResource("5_cob6l")
 visible = false
 position = Vector2(1, 0)
 collision_layer = 0
-collision_mask = 18
+collision_mask = 50
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/ship-check"]
 shape = SubResource("CircleShape2D_vn3l6")
@@ -148,3 +151,8 @@ debug_color = Color(0.956863, 0, 0.545098, 0.243137)
 
 [node name="planet-debris" parent="." instance=ExtResource("2_ag382")]
 one_shot = true
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_esmw4")
