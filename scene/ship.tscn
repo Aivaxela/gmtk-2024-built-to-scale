@@ -94,8 +94,6 @@ debug_color = Color(0, 0.6, 0.701961, 0.117647)
 [node name="collision-check-area" type="Area2D" parent="."]
 collision_layer = 2
 collision_mask = 0
-monitoring = false
-monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="collision-check-area"]
 position = Vector2(17.5, 10)

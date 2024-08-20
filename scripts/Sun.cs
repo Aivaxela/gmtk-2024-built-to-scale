@@ -38,7 +38,5 @@ public partial class Sun : CharacterBody2D
     private void OnSpeedupTimerTimeout()
     {
         // speed += 5;
-
-        GD.Print("sun speed: " + speed);
     }
 }

@@ -1,8 +1,10 @@
-[gd_scene load_steps=36 format=3 uid="uid://cmb3v75n0j57t"]
+[gd_scene load_steps=38 format=3 uid="uid://cmb3v75n0j57t"]
 
 [ext_resource type="Script" path="res://scripts/Main.cs" id="1_1lnp4"]
 [ext_resource type="Script" path="res://scripts/Camera.cs" id="1_d2gsj"]
+[ext_resource type="AudioStream" uid="uid://x2ewrf38ck3c" path="res://music/Space Bounce.wav" id="2_8r5km"]
 [ext_resource type="Texture2D" uid="uid://cbvv63x42fupc" path="res://sprites/fuel-outline.png" id="3_8j6ht"]
+[ext_resource type="AudioStream" uid="uid://xcuegmeqe50g" path="res://music/Space Terror.wav" id="3_tpej6"]
 [ext_resource type="PackedScene" uid="uid://cxvys3gvoltbj" path="res://scene/ship.tscn" id="4_2cdsw"]
 [ext_resource type="Texture2D" uid="uid://dhprypsetb3k7" path="res://sprites/fuel-fill.png" id="4_j05yb"]
 [ext_resource type="PackedScene" uid="uid://dbxyqlcc7cohr" path="res://scene/planet-x.tscn" id="5_fjy7s"]
@@ -66,10 +68,10 @@ ship = NodePath("../ship")
 
 [node name="fuel-level" type="TextureProgressBar" parent="camera"]
 z_index = 1
-offset_left = -126.0
-offset_top = 438.0
-offset_right = 157.0
-offset_bottom = 478.0
+offset_left = -930.0
+offset_top = 450.0
+offset_right = -645.0
+offset_bottom = 490.0
 pivot_offset = Vector2(141.5, 0)
 max_value = 500.0
 value = 500.0
@@ -105,10 +107,10 @@ horizontal_alignment = 1
 
 [node name="pod-boarding-progress" type="TextureProgressBar" parent="camera"]
 z_index = 1
-offset_left = -31.0
-offset_top = 523.0
-offset_right = 66.0
-offset_bottom = 620.0
+offset_left = 739.0
+offset_top = 405.0
+offset_right = 838.0
+offset_bottom = 504.0
 max_value = 10.0
 value = 4.0
 fill_mode = 4
@@ -144,6 +146,32 @@ theme_override_font_sizes/font_size = 36
 text = "Info Label Info Label Info Label Info Label Info Label Info Label "
 horizontal_alignment = 1
 autowrap_mode = 2
+
+[node name="volume-title" type="Label" parent="camera"]
+modulate = Color(1, 1, 0, 1)
+z_index = 1
+offset_left = -743.0
+offset_top = 420.0
+offset_right = -243.0
+offset_bottom = 620.0
+pivot_offset = Vector2(250, 0)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("5_t61t0")
+theme_override_font_sizes/font_size = 36
+text = "Volume:"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="volume" type="HSlider" parent="camera/volume-title"]
+layout_mode = 0
+offset_left = 145.0
+offset_top = 47.0
+offset_right = 345.0
+offset_bottom = 63.0
+min_value = -80.0
+max_value = 0.0
+step = 5.0
 
 [node name="bgs" type="Node" parent="."]
 
@@ -309,13 +337,21 @@ texture = ExtResource("9_jy604")
 local_coords = true
 
 [node name="ship" parent="." node_paths=PackedStringArray("fuelLevelReadout", "infoLabel", "dockPoint", "boardingBar", "fuel", "podBoardingTimer") instance=ExtResource("4_2cdsw")]
-position = Vector2(2, 2)
+position = Vector2(-74, -23)
 fuelLevelReadout = NodePath("../camera/fuel-level/readout")
 infoLabel = NodePath("../camera/info-label")
 dockPoint = NodePath("../warp-ship/dock-point")
 boardingBar = NodePath("../camera/pod-boarding-progress")
 fuel = NodePath("../camera/fuel-level")
 podBoardingTimer = NodePath("../pod-boarding-timer")
+
+[node name="space-bounce" type="AudioStreamPlayer2D" parent="ship"]
+position = Vector2(74, 23)
+stream = ExtResource("2_8r5km")
+
+[node name="space-terror" type="AudioStreamPlayer2D" parent="ship"]
+position = Vector2(74, 23)
+stream = ExtResource("3_tpej6")
 
 [node name="sun" parent="." instance=ExtResource("15_mx2ub")]
 position = Vector2(-1324, 0)

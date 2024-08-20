@@ -23,7 +23,7 @@ Session="*res://scripts/Session.cs"
 [display]
 
 window/size/viewport_width=1920
-window/size/viewport_height=1280
+window/size/viewport_height=1040
 window/stretch/mode="viewport"
 mouse_cursor/custom_image="res://sprites/cursor.png"
 

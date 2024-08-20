@@ -7,4 +7,6 @@ public partial class Session : Node
     public bool plutoVisited = false;
     public bool xFound = false;
     public bool mercTokenCollected = false;
+
+    public float vol = 0;
 }
