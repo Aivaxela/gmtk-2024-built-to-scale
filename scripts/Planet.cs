@@ -39,8 +39,8 @@ public partial class Planet : Node2D
 
     public override void _PhysicsProcess(double delta)
     {
-        if (Input.IsActionPressed("scale-up") && planetScale < maxScale && isSelected) planetScale += 0.05f;
-        if (Input.IsActionPressed("scale-down") && planetScale > 0.5 && isSelected) planetScale -= 0.05f;
+        if (Input.IsActionPressed("scale-up") && planetScale < maxScale && (isSelected || ship.planetNearString == Name)) planetScale += 0.05f;
+        if (Input.IsActionPressed("scale-down") && planetScale > 0.5 && (isSelected || ship.planetNearString == Name)) planetScale -= 0.05f;
         if (Input.IsActionJustPressed("interact") && Name == "planet-earth" && ship.planetNear != null)
         {
             if (ship.planetNear.Name == "planet-earth" && ship.podReady) LaunchPodFromEarth();

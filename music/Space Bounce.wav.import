@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://x2ewrf38ck3c"
+path="res://.godot/imported/Space Bounce.wav-de6c5c9e073a01ece3eea5b7e0f06791.sample"
+
+[deps]
+
+source_file="res://music/Space Bounce.wav"
+dest_files=["res://.godot/imported/Space Bounce.wav-de6c5c9e073a01ece3eea5b7e0f06791.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://xcuegmeqe50g"
+path="res://.godot/imported/Space Terror.wav-396831eb11e940ab70c5136107eb6f02.sample"
+
+[deps]
+
+source_file="res://music/Space Terror.wav"
+dest_files=["res://.godot/imported/Space Terror.wav-396831eb11e940ab70c5136107eb6f02.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

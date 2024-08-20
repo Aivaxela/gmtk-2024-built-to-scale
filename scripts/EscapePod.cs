@@ -12,7 +12,6 @@ public partial class EscapePod : CharacterBody2D
     public bool launched = false;
 
     Planet planetNear = null;
-    Comet cometNear = null;
 
 
     public override void _Ready()
@@ -37,11 +36,6 @@ public partial class EscapePod : CharacterBody2D
             Vector2 dirToPlanet = planetNear.GlobalPosition - GlobalPosition;
             direction = dirToPlanet.Normalized();
         }
-        else if (cometNear != null)
-        {
-            Vector2 dirToComet = cometNear.GlobalPosition - GlobalPosition;
-            direction = dirToComet.Normalized();
-        }
         else
         {
             direction = velocity;
@@ -65,13 +59,11 @@ public partial class EscapePod : CharacterBody2D
     {
         if (area.GetParent().Name == "planet-earth") return;
         if (area.GetParent() is Planet) planetNear = (Planet)area.GetParent();
-        if (area.GetParent() is Comet) cometNear = (Comet)area.GetParent();
     }
 
     private void OnGravityAreaExited(Area2D area)
     {
         planetNear = null;
-        cometNear = null;
     }
 
     private void OnSunEntered(object _)
@@ -85,11 +77,6 @@ public partial class EscapePod : CharacterBody2D
         {
             bodyPointer.Visible = true;
             bodyPointer.Rotation = GetAngleTo(planetNear.GlobalPosition);
-        }
-        else if (cometNear != null)
-        {
-            bodyPointer.Visible = true;
-            bodyPointer.Rotation = GetAngleTo(cometNear.GlobalPosition);
         }
         else
         {

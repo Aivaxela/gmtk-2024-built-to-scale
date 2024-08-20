@@ -34,9 +34,9 @@ public partial class Ship : CharacterBody2D
     public int podCounter = 1;
     public int podsArrived = 0;
     bool nearWarpShip = false;
+    public string planetNearString = "";
 
     public Planet planetNear = null;
-    Comet cometNear = null;
     GpuParticles2D warpShipBeam;
     Label boardingTitle;
 
@@ -108,6 +108,11 @@ public partial class Ship : CharacterBody2D
         {
             if (planetNear.Name == "planet-pluto") session.plutoVisited = true;
             if (planetNear.Name == "planet-x") session.xFound = true;
+            planetNearString = planetNear.Name;
+        }
+        else
+        {
+            planetNearString = "";
         }
     }
 
@@ -116,7 +121,7 @@ public partial class Ship : CharacterBody2D
     {
         boostCoefficient = 0f;
 
-        if ((cometNear != null && boosting) || (planetNear != null && boosting))
+        if (planetNear != null && boosting)
         {
             Vector2 boostDir = GetGlobalMousePosition() - GlobalPosition;
             direction = boostDir.Normalized();
@@ -127,13 +132,7 @@ public partial class Ship : CharacterBody2D
         {
             Vector2 dirToPlanet = planetNear.GlobalPosition - GlobalPosition;
             direction = dirToPlanet.Normalized();
-            if (planetNear.Name == "planet-uranus" || planetNear.Name == "planet-neptune" || planetNear.Name == "planet-titan")
-                fuel.Value += 0.5f;
-        }
-        else if (cometNear != null)
-        {
-            Vector2 dirToComet = cometNear.GlobalPosition - GlobalPosition;
-            direction = dirToComet.Normalized();
+            fuel.Value += 0.5f;
         }
         else if (boosting)
         {
@@ -204,13 +203,11 @@ public partial class Ship : CharacterBody2D
     private void OnGravityAreaEntered(Area2D area)
     {
         if (area.GetParent() is Planet) planetNear = (Planet)area.GetParent();
-        if (area.GetParent() is Comet) cometNear = (Comet)area.GetParent();
     }
 
     private void OnGravityAreaExited(Area2D area)
     {
         planetNear = null;
-        cometNear = null;
     }
 
     private void OnWarpShipAreaEntered(object _)
@@ -265,11 +262,6 @@ public partial class Ship : CharacterBody2D
         {
             bodyPointer.Visible = true;
             bodyPointer.Rotation = GetAngleTo(planetNear.GlobalPosition);
-        }
-        else if (cometNear != null)
-        {
-            bodyPointer.Visible = true;
-            bodyPointer.Rotation = GetAngleTo(cometNear.GlobalPosition);
         }
         else
         {
