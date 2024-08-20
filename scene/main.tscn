@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://cmb3v75n0j57t"]
+[gd_scene load_steps=42 format=3 uid="uid://cmb3v75n0j57t"]
 
 [ext_resource type="Script" path="res://scripts/Main.cs" id="1_1lnp4"]
 [ext_resource type="Script" path="res://scripts/Camera.cs" id="1_d2gsj"]
@@ -22,6 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://qes2ltlb2fmx" path="res://scene/planet-venus.tscn" id="11_1fbjj"]
 [ext_resource type="PackedScene" uid="uid://biakw32ljn108" path="res://scene/planet-mars.tscn" id="11_ox6sk"]
 [ext_resource type="PackedScene" uid="uid://bla8m4yayvh8r" path="res://scene/planet-earth.tscn" id="12_dp6bp"]
+[ext_resource type="Texture2D" uid="uid://bplp63eajpcrq" path="res://sprites/sat.png" id="14_vu4dd"]
 [ext_resource type="PackedScene" uid="uid://dtnnci13fmaw8" path="res://scene/sun.tscn" id="15_mx2ub"]
 [ext_resource type="Script" path="res://scripts/Boundaries.cs" id="16_n2dui"]
 [ext_resource type="PackedScene" uid="uid://catjt8momf0ne" path="res://scene/mercury-token.tscn" id="17_436o4"]
@@ -33,6 +34,24 @@
 [ext_resource type="PackedScene" uid="uid://dloq5vvu1j4vi" path="res://scene/planet-uranus.tscn" id="21_gptuc"]
 [ext_resource type="PackedScene" uid="uid://dj802kd1o7qjs" path="res://scene/warp-ship.tscn" id="21_piltd"]
 [ext_resource type="PackedScene" uid="uid://dhstmrovnxqny" path="res://scene/planet-neptune.tscn" id="22_4nyrq"]
+
+[sub_resource type="Gradient" id="Gradient_r4bkn"]
+offsets = PackedFloat32Array(0, 0.132768, 0.850282, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 0.729412, 1, 1, 0.729412, 0.85098, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_xveyk"]
+gradient = SubResource("Gradient_r4bkn")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vuind"]
+particle_flag_disable_z = true
+emission_shape = 6
+emission_ring_axis = Vector3(0, 20, 1)
+emission_ring_height = 100.0
+emission_ring_radius = 1000.0
+emission_ring_inner_radius = 2000.0
+gravity = Vector3(0, 0, 0)
+scale_max = 10.0
+color_ramp = SubResource("GradientTexture1D_xveyk")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xvr32"]
 size = Vector2(217, 20)
@@ -173,6 +192,24 @@ min_value = -80.0
 max_value = 0.0
 step = 5.0
 
+[node name="controls" type="Label" parent="camera"]
+modulate = Color(1, 1, 0, 0.784314)
+z_index = 1
+offset_left = -944.0
+offset_top = 263.0
+offset_right = -344.0
+offset_bottom = 495.0
+pivot_offset = Vector2(250, 0)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 16
+text = "Hover over planet to select it
+W - scale planet up
+S - scale planet down
+Spacebar/RMB - thrusters
+R - restart level"
+autowrap_mode = 2
+
 [node name="bgs" type="Node" parent="."]
 
 [node name="stars-1" type="Parallax2D" parent="bgs"]
@@ -220,6 +257,16 @@ texture = ExtResource("10_4gmp4")
 [node name="jup" type="Sprite2D" parent="bgs"]
 position = Vector2(2755, -1998)
 texture = ExtResource("9_0kycm")
+
+[node name="sat" type="Sprite2D" parent="bgs"]
+position = Vector2(1587, 1640)
+rotation = 0.598474
+texture = ExtResource("14_vu4dd")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="bgs/sat"]
+amount = 3000
+process_material = SubResource("ParticleProcessMaterial_vuind")
+visibility_rect = Rect2(-2000, -2000, 3000, 3500)
 
 [node name="planets" type="Node" parent="."]
 

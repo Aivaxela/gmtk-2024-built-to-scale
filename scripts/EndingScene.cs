@@ -7,6 +7,8 @@ public partial class EndingScene : Node2D
     [Export] Label mercTreasure;
     [Export] Label planetX;
     [Export] Label plutoVisit;
+    [Export] Button replay;
+    [Export] Button exit;
 
     Session session;
 
@@ -38,5 +40,18 @@ public partial class EndingScene : Node2D
             mercTreasure.Text = "Mercury's Treasure found: Yes";
             mercTreasure.Modulate = Colors.GreenYellow;
         }
+
+        replay.ButtonDown += OnReplayButtonDown;
+        exit.ButtonDown += OnExitButtonDown;
+    }
+
+    private void OnReplayButtonDown()
+    {
+        GetTree().ChangeSceneToFile("res://scene/main.tscn");
+    }
+
+    private void OnExitButtonDown()
+    {
+        GetTree().Quit();
     }
 }

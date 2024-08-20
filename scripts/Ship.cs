@@ -161,7 +161,7 @@ public partial class Ship : CharacterBody2D
 
     private void CheckForBoosting()
     {
-        if (fuel.Value <= 0 && false)  //TODO: remove infinite fuel
+        if (fuel.Value <= 0)
         {
             boosting = false;
             boostParticles.Emitting = false;
